@@ -4,9 +4,9 @@ import { CgMenuGridO } from "react-icons/cg";
 
 function SecondNav() {
   return (
-    <div className="border-y py-1">
-      <div className="container mx-auto flex items-center justify-between px-1 sm:px-4 duration-200">
-        <div className="s310:flex px-3.5 py-2 items-center gap-2 cursor-pointer text-primary">
+    <div className="border-y py-1 shadow-sm">
+      <div className="container mx-auto flex items-center justify-between duration-200 px-1">
+        <div className="s310:flex py-2 items-center gap-2 cursor-pointer text-primary">
           <label htmlFor={categoryDrawerId} className="cursor-pointer">
             <CgMenuGridO className="text-lg s310:text-2xl" />
           </label>

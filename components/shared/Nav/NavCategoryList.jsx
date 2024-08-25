@@ -22,7 +22,7 @@ const defaultCategoryList = [
 
 function NavCategoryList({ category = defaultCategoryList }) {
   return (
-    <div className="absolute left-0 top-full bg-white min-w-56 mt-2 shadow-md scale-y-0 group-hover:scale-y-100 duration-100 origin-top rounded-md flex flex-col">
+    <div className="absolute z-50 left-0 top-full bg-white min-w-56 mt-2 shadow-md scale-y-0 group-hover:scale-y-100 duration-100 origin-top rounded-md flex flex-col">
       {category?.map(({ name, value }) => {
         return (
           <NavLi key={value + name} name={name} value={value}>

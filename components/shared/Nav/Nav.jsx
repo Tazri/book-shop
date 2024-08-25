@@ -17,9 +17,9 @@ function Nav() {
   return (
     <nav className="py-3">
       <div className="flex gap-3 container mx-auto p-1 px-2 justify-between lg:justify-start flex-wrap duration-200">
-        <div className="flex items-center">
-          <span className="flex items-center gap-2 s310:text-xl">
-            <IoBookOutline className="text-lg s310:text-2xl text-primary" />{" "}
+        <div className="flex items-center text-sm">
+          <span className="flex items-center s310:gap-2 gap-1 s310:text-xl">
+            <IoBookOutline className="text-base s310:text-2xl text-primary" />{" "}
             Logo
           </span>
         </div>
@@ -29,7 +29,7 @@ function Nav() {
         </div>
 
         <div className="gap-2 items-center justify-center hidden lg:flex">
-          <Button showDot>
+          <Button showDot htmlFor={cartDrawerId}>
             <CiShoppingCart />
           </Button>
           <button className="bg-primary text-white h-full whitespace-nowrap py-2 px-6 rounded-md">
@@ -62,7 +62,7 @@ function Button({ children, showDot = false, dotNum = 0, htmlFor = "#" }) {
   return (
     <label
       htmlFor={htmlFor}
-      className="size-7 s310:size-10 border-[0.1px] s310:border border-gray-400 text-lg flex items-center justify-center rounded-full hover:bg-primary hover:text-white duration-75 hover:border-0 relative group cursor-pointer"
+      className="size-6 s310:size-10 border-[0.1px] s310:border border-gray-400 text-lg flex items-center justify-center rounded-full hover:bg-primary hover:text-white duration-75 hover:border-0 relative group cursor-pointer"
     >
       {children}
       {showDot && (

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { IoBookOutline, IoCloseOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
+import DrawerCartBookCard from "./DrawerCartBookCard";
 
 function CartDrawer() {
   const closeRef = useRef();
@@ -50,10 +51,6 @@ function CartDrawer() {
   );
 }
 
-function DrawerCartBookCard() {
-  return <div>dsaf</div>;
-}
-
 function Summary({ closeRef }) {
   const router = useRouter();
 
@@ -63,7 +60,7 @@ function Summary({ closeRef }) {
   };
   return (
     <div>
-      <div className="flex flex-col text-sm text-gray-600">
+      <div className="flex flex-col text-xs s185:text-sm text-gray-600">
         <div className="border-y py-3 flex flex-col gap-2">
           <div className="flex justify-between flex-wrap">
             <span>Total :</span> <span>1130$</span>
@@ -79,17 +76,17 @@ function Summary({ closeRef }) {
         </div>
       </div>
 
-      <div className="flex px-2 py-3 gap-4">
+      <div className="flex px-2 py-3 gap-4 text-[0.50rem] s185:text-xs s310:text-base">
         <button
           href="#cart"
-          className="block w-full py-2 border border-gray-400 text-gray-600 text-center hover:bg-primary hover:text-white hover:border-primary duration-300 text-xs s310:text-base"
+          className="block w-full py-2 border border-gray-400 text-gray-600 text-center hover:bg-primary hover:text-white hover:border-primary duration-300 "
           onClick={() => goPage("#cart")}
         >
           View Cart
         </button>
         <button
           href="#order"
-          className="block w-full py-2 border border-gray-400 text-gray-600 text-center hover:bg-primary hover:text-white hover:border-primary duration-300 text-xs s310:text-base"
+          className="block w-full py-2 border border-gray-400 text-gray-600 text-center hover:bg-primary hover:text-white hover:border-primary duration-300 "
           onClick={() => goPage("#order")}
         >
           Order

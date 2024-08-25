@@ -16,6 +16,7 @@ module.exports = {
         "primary-tint-10": "#ff661a",
       },
       screens: {
+        s185: "185px",
         s340: "340px",
         s310: "310px",
         s420: "420px",

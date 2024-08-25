@@ -49,7 +49,7 @@ function SearchModalForm({ closeRef, categoryList = defaultCategoryList }) {
       </div>
 
       <div className="px-3 py-2">
-        <p className="text-sm s310:text-base text-primary-shade-10 pb-2">
+        <p className="text-xs s310:text-base text-primary-shade-10 pb-2">
           Select Category
         </p>
 
@@ -70,7 +70,7 @@ function SearchModalForm({ closeRef, categoryList = defaultCategoryList }) {
 function NavLi({ children, value, name }) {
   return (
     <label
-      className="py-1 px-3 text-gray-500 duration-100 cursor-pointer gap-1 flex items-center capitalize select-none bg-gray-100"
+      className="py-1 px-3 text-gray-500 duration-100 cursor-pointer gap-1 flex items-center capitalize select-none bg-gray-100 text-xs s420:text-base"
       htmlFor={"search-modal-" + value}
     >
       <span className="relative overflow-hidden">

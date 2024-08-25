@@ -52,7 +52,7 @@ function SearchModal({ links = defaultTopSearchLink }) {
         className="h-full w-full fixed top-0 left-0 bg-black opacity-0 peer-checked:opacity-30 peer-checked:pointer-events-auto pointer-events-none duration-150"
       ></label>
 
-      <div className="h-full s420:h-auto  w-full max-w-[420px] bg-white fixed top-0 left-1/2 -translate-x-1/2 peer-checked:translate-y-0 s420:peer-checked:translate-y-7 -translate-y-full duration-200">
+      <div className="h-full s420:h-auto  w-full max-w-[420px] bg-white fixed top-0 left-1/2 -translate-x-1/2 peer-checked:translate-y-0 s420:peer-checked:translate-y-7 -translate-y-full duration-200 overflow-scroll">
         <div className="p-3 flex justify-between items-center text-sm s310:text-lg border-b">
           <span className="text-primary">Search Your Book</span>
           <label
@@ -66,8 +66,8 @@ function SearchModal({ links = defaultTopSearchLink }) {
         <SearchModalForm closeRef={closeRef} />
 
         <div className="p-3">
-          <p className="text-primary">You May Like to Search : </p>
-          <div className="my-3 flex flex-wrap gap-3">
+          <p className="text-primary text-sm">You May Like to Search : </p>
+          <div className="my-3 flex flex-wrap gap-1 s420:gap-3">
             {links?.map((link) => {
               return (
                 <SearchLink
@@ -97,7 +97,7 @@ function SearchLink({ children, href = "#", closeRef }) {
     <span
       href={href}
       onClick={handleClick}
-      className="bg-gray-200 hover:bg-primary-tint-10 hover:text-white px-3 py-2 rounded-full text-gray-600 text-xs s310:text-sm cursor-pointer"
+      className="bg-gray-200 hover:bg-primary-tint-10 hover:text-white px-3 py-2 rounded-full text-gray-600 text-[0.50rem] s310:text-sm cursor-pointer"
     >
       {children}
     </span>
