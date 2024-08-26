@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .container {
+    @apply max-w-[1080px] md:max-w-[700px] lg:max-w-[980px] s1400:max-w-[1280px];
+  }
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }

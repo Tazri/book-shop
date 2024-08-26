@@ -19,10 +19,10 @@ function CartDrawer() {
 
       <label
         htmlFor={cartDrawerId}
-        className="fixed top-0 left-0 h-full w-full bg-black opacity-0 peer-checked:opacity-30 pointer-events-none peer-checked:pointer-events-auto"
+        className="fixed top-0 left-0 h-full w-full bg-black opacity-0 peer-checked:opacity-30 pointer-events-none peer-checked:pointer-events-auto z-50"
       ></label>
 
-      <div className="w-full max-w-[340px] h-full bg-white fixed top-0 right-0 translate-x-full peer-checked:translate-x-0 duration-200 flex flex-col">
+      <div className="w-full max-w-[340px] h-full bg-white fixed top-0 right-0 z-50 translate-x-full peer-checked:translate-x-0 duration-200 flex flex-col">
         <div className="flex items-center justify-between p-4 border-b">
           <label
             htmlFor={cartDrawerId}

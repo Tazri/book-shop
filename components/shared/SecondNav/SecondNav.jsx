@@ -4,7 +4,7 @@ import { CgMenuGridO } from "react-icons/cg";
 
 function SecondNav() {
   return (
-    <div className="border-y py-1 shadow-sm">
+    <div className="border-y-[0.4px] border-[#c8c8c849] py-1">
       <div className="container mx-auto flex items-center justify-between duration-200 px-1">
         <div className="s310:flex py-2 items-center gap-2 cursor-pointer text-primary">
           <label htmlFor={categoryDrawerId} className="cursor-pointer">

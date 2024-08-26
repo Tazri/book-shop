@@ -63,7 +63,7 @@ function MenuDrawer({ links = defaultLinks }) {
       />
       <label
         htmlFor={menuDrawerId}
-        className="fixed top-0 left-0 h-full w-full bg-black opacity-0 peer-checked:pointer-events-auto pointer-events-none peer-checked:opacity-40 duration-100"
+        className="fixed top-0 left-0 h-full w-full bg-black opacity-0 peer-checked:pointer-events-auto pointer-events-none peer-checked:opacity-40 duration-100 z-50"
       ></label>
 
       <div className="fixed h-full bg-white top-0 right-0 z-50 shadow-md translate-x-full peer-checked:translate-x-0 duration-300 hover:text-inherit w-full s340:max-w-[340px]">

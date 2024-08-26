@@ -49,10 +49,10 @@ function SearchModal({ links = defaultTopSearchLink }) {
       />
       <label
         htmlFor={searchModalId}
-        className="h-full w-full fixed top-0 left-0 bg-black opacity-0 peer-checked:opacity-30 peer-checked:pointer-events-auto pointer-events-none duration-150"
+        className="h-full w-full fixed top-0 left-0 bg-black opacity-0 peer-checked:opacity-30 peer-checked:pointer-events-auto pointer-events-none duration-150 z-50"
       ></label>
 
-      <div className="h-full s420:h-auto  w-full max-w-[420px] bg-white fixed top-0 left-1/2 -translate-x-1/2 peer-checked:translate-y-0 s420:peer-checked:translate-y-7 -translate-y-full duration-200 overflow-scroll">
+      <div className="h-full s420:h-auto w-full max-w-[420px] bg-white fixed top-0 left-1/2 -translate-x-1/2 z-50 peer-checked:translate-y-0 s420:peer-checked:translate-y-7 -translate-y-full duration-200 overflow-scroll">
         <div className="p-3 flex justify-between items-center text-sm s310:text-lg border-b">
           <span className="text-primary">Search Your Book</span>
           <label

@@ -1,5 +1,5 @@
+"use client";
 import SearchBar from "./SearchBar";
-import { CiHeart } from "react-icons/ci";
 import { CiShoppingCart } from "react-icons/ci";
 import { IoBookOutline } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
@@ -12,10 +12,32 @@ import {
 } from "@/components/htmlIds/ids";
 import SearchModal from "./SearchModal";
 import CartDrawer from "./CartDrawer";
+import { useEffect, useState } from "react";
 
 function Nav() {
+  const [isTop, setIsTop] = useState(true);
+
+  useEffect(() => {
+    const listener = window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        setIsTop(false);
+      } else {
+        setIsTop(true);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("scroll", listener);
+    };
+  }, []);
   return (
-    <nav className="py-3">
+    <nav
+      className={`duration-200 ${
+        isTop
+          ? "py-3"
+          : "fixed top-0 left-0 bg-white z-50 w-full shadow-md py-2"
+      }`}
+    >
       <div className="flex gap-3 container mx-auto p-1 px-2 justify-between lg:justify-start flex-wrap duration-200">
         <div className="flex items-center text-sm">
           <span className="flex items-center s310:gap-2 gap-1 s310:text-xl">
