@@ -9,6 +9,7 @@ import { getDemoCategory } from "@/data/demoCategory";
 import { getDemoBook } from "@/data/demoData";
 import { getDemoPublisher } from "@/data/demoPublisher";
 import CategorySlider from "@/components/homePage/CategorySlider/CategorySlider";
+import HomeFeatured from "@/components/homePage/HomeFeatured";
 
 export default function HomePage() {
   const books = getDemoBook();
@@ -33,6 +34,8 @@ export default function HomePage() {
       <BookSlide title="Anime Book" books={books} />
 
       <CategorySlider allCategory={allCategory} />
+
+      <HomeFeatured />
     </>
   );
 }

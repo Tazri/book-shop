@@ -14,6 +14,8 @@ module.exports = {
         "primary-shade-30": "#b33b01",
         "primary-tint-20": "#ff7734",
         "primary-tint-10": "#ff661a",
+        "footer-bg": "#1d1f24",
+        "footer-text": "#999999",
       },
       screens: {
         s185: "185px",
