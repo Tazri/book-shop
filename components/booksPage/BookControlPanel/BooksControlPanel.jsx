@@ -41,7 +41,7 @@ function BooksControlPanel({ searchParams: propsSearchParams }) {
           <div className="group relative">
             <button>{selectedSort}</button>
 
-            <div className="flex flex-col w-fit absolute left-1/2 -translate-x-1/2 top-[109%] bg-white px-3 py-2 border rounded-sm scale-y-0 group-hover:scale-y-100 duration-200 origin-top">
+            <div className="flex flex-col w-fit absolute left-1/2 -translate-x-1/2 top-[109%] bg-white px-3 py-2 border rounded-sm scale-y-0 group-hover:scale-y-100 duration-200 origin-top border-t-primary">
               {Object.keys(sorting)?.map((sortOp, index) => {
                 return (
                   <button

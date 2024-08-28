@@ -1,5 +1,5 @@
 import BooksControlPanel from "@/components/booksPage/BookControlPanel/BooksControlPanel";
-import FilterForm from "@/components/booksPage/FilterForm/FilterForm";
+import BookDisplayer from "@/components/booksPage/BookDisplayer/BookDisplayer";
 
 function BookPage({ searchParams }) {
   return (
@@ -7,7 +7,7 @@ function BookPage({ searchParams }) {
       <BooksControlPanel searchParams={searchParams} />
 
       <div className="container mx-auto">
-        <FilterForm />
+        <BookDisplayer />
       </div>
     </>
   );
