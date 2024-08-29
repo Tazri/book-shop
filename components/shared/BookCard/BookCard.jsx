@@ -26,10 +26,10 @@ function BookCard({ book }) {
 
       <div className="p-2 text-sm flex flex-col gap-0.5">
         <h3 className="line-clamp-2  s500:text-base s450:text-sm s260:text-xs text-[0.6rem] leading-3 duration-200 text-[#282828] font-semibold">
-          {book?.name}
+          {book?.name ? book?.name : "Book Name"}
         </h3>
         <h4 className="line-clamp-1 s500:text-base s450:text-sm s260:text-xs text-[0.6rem] leading-3 text-[#434343] duration-200">
-          {book?.author}
+          {book?.author ? book?.author : "Author Name"}
         </h4>
 
         <div className="flex gap-1 items-center">

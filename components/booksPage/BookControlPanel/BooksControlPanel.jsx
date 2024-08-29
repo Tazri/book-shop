@@ -1,6 +1,5 @@
 "use client";
 import { IoFilter } from "react-icons/io5";
-import FilterDrawer from "./FilterDrawer";
 import { filterDrawerId } from "@/components/htmlIds/ids";
 import { useRouter } from "next/navigation";
 
@@ -27,21 +26,25 @@ function BooksControlPanel({ searchParams: propsSearchParams }) {
 
   return (
     <div className="container px-1 mx-auto my-4">
-      <div className="border py-2 px-3 flex justify-between text-[0.6rem] s185:text-xs s200:text-sm s240:text-base  duration-200 text-[#333333]">
+      <div className="border py-2 px-3 flex justify-between items-center text-[0.6rem] s185:text-xs s200:text-sm s240:text-base  duration-200 text-[#333333]">
         {/** filter button */}
         <label
           htmlFor={filterDrawerId}
-          className="flex flex-wrap gap-1 s200:gap-2 items-center w-fit cursor-pointer"
+          className="flex flex-wrap gap-1 s200:gap-2 items-center w-fit cursor-pointer lg:hidden"
         >
           <IoFilter /> Filter
         </label>
+
+        <h2 className="text-[#666666] text-sm hidden lg:block">
+          Showing 1-3 Of 34 Results
+        </h2>
 
         {/* sorting option */}
         <div>
           <div className="group relative">
             <button>{selectedSort}</button>
 
-            <div className="flex flex-col w-fit absolute left-1/2 -translate-x-1/2 top-[109%] bg-white px-3 py-2 border rounded-sm scale-y-0 group-hover:scale-y-100 duration-200 origin-top border-t-primary">
+            <div className="flex flex-col w-fit absolute z-40 left-1/2 -translate-x-1/2 top-[109%] bg-white px-3 py-2 border rounded-sm scale-y-0 group-hover:scale-y-100 duration-200 origin-top border-t-primary">
               {Object.keys(sorting)?.map((sortOp, index) => {
                 return (
                   <button
@@ -61,8 +64,6 @@ function BooksControlPanel({ searchParams: propsSearchParams }) {
           </div>
         </div>
       </div>
-
-      <FilterDrawer />
     </div>
   );
 }

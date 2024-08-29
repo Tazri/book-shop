@@ -24,7 +24,7 @@ function PriceRange() {
         <input
           id="price-filter"
           type="range"
-          name="price-fitler"
+          name="price-filter"
           className={"w-full " + style.range}
           min={0}
           max={2000}
