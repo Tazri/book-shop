@@ -3,6 +3,7 @@ import defaultImage from "@/assets/comics/a_silent_voice_by_yoshitoki_oima.webp"
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
+import Link from "next/link";
 
 // w-auto s410:w-32 s450:w-36 s500:w-40 s550:w-44 s600:w-48 s690:w-40 md:w-40 lg:w-44 s1400:w-48
 
@@ -10,7 +11,10 @@ function BookCard({ book }) {
   return (
     <div className="w-full group hover:shadow-lg h-full">
       <div className="w-full relative overflow-hidden">
-        <div className="aspect-[62/89] w-full">
+        <Link
+          href={"/books/" + book?.id}
+          className="block aspect-[62/89] w-full"
+        >
           <Image
             src={book?.img ? book.img : defaultImage}
             height={1000}
@@ -18,7 +22,7 @@ function BookCard({ book }) {
             alt="book image"
             className=""
           />
-        </div>
+        </Link>
         <button className="bg-primary text-white w-full absolute bottom-0 left-0 translate-y-0 sm:translate-y-full group-hover:translate-y-0 duration-200 s450:py-2 py-1 s450:text-sm sm:text-base text-xs">
           Add To Card
         </button>
@@ -26,7 +30,9 @@ function BookCard({ book }) {
 
       <div className="p-2 text-sm flex flex-col gap-0.5">
         <h3 className="line-clamp-2  s500:text-base s450:text-sm s260:text-xs text-[0.6rem] leading-3 duration-200 text-[#282828] font-semibold">
-          {book?.name ? book?.name : "Book Name"}
+          <Link href={"/books/" + book?.id}>
+            {book?.name ? book?.name : "Book Name"}
+          </Link>
         </h3>
         <h4 className="line-clamp-1 s500:text-base s450:text-sm s260:text-xs text-[0.6rem] leading-3 text-[#434343] duration-200">
           {book?.author ? book?.author : "Author Name"}

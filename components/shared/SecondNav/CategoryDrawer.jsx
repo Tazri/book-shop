@@ -26,7 +26,13 @@ const defaultLinks = [
 ];
 
 function CategoryDrawer({ links = defaultLinks }) {
+  const router = useRouter();
   const inputRef = useRef();
+
+  const seeMoreHandle = () => {
+    router.push("/category");
+    inputRef?.current?.click();
+  };
   return (
     <div>
       <input
@@ -40,7 +46,7 @@ function CategoryDrawer({ links = defaultLinks }) {
         className="fixed top-0 left-0 h-full w-full bg-black opacity-0 peer-checked:pointer-events-auto pointer-events-none peer-checked:opacity-40 duration-100 z-50"
       ></label>
 
-      <div className="fixed h-full w-full max-w-[280px] bg-white top-0 left-0 z-50 shadow-md -translate-x-full peer-checked:translate-x-0 duration-300">
+      <div className="fixed h-full w-full max-w-[280px] bg-white top-0 left-0 z-50 shadow-md -translate-x-full peer-checked:translate-x-0 duration-300 flex flex-col">
         <div className="p-3 flex justify-between text-gray-600 items-center border-b text-sm s310:text-base">
           <p className="">Category</p>{" "}
           <label htmlFor={categoryDrawerId} className="cursor-pointer">
@@ -58,12 +64,12 @@ function CategoryDrawer({ links = defaultLinks }) {
           })}
         </ul>
 
-        <Link
-          href="/category"
-          className="block text-center px-3 py-2 text-white bg-primary mx-3 hover:opacity-90 rounded-sm"
+        <button
+          onClick={seeMoreHandle}
+          className="text-center px-3 py-2 text-white bg-primary mx-3 hover:opacity-90 rounded-sm"
         >
           See More
-        </Link>
+        </button>
       </div>
     </div>
   );
