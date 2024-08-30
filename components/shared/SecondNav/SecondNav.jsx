@@ -25,7 +25,7 @@ function SecondNav() {
           </NavLink>
 
           <NavLink isActive={pathname === "/books"}>
-            <Link href="/books">Store</Link>
+            <Link href="/books">Books</Link>
           </NavLink>
 
           <NavLink isActive={pathname === "/authors"}>

@@ -1,7 +1,8 @@
 import BookCard from "@/components/shared/BookCard/BookCard";
+import Pagination from "@/components/shared/Pagination/Pagination";
 import { getDemoBook } from "@/data/demoData";
 
-function BookDisplay() {
+function BookDisplay({ searchParams }) {
   const books = getDemoBook();
 
   return (
@@ -14,6 +15,7 @@ function BookDisplay() {
           return <BookCard key={`${book?.id}+${index}`} book={book} />;
         })}
       </div>
+      <Pagination path={"/books"} searchParams={searchParams} />
     </div>
   );
 }

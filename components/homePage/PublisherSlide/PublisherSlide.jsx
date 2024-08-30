@@ -20,7 +20,7 @@ function PublisherSlide({ publishers }) {
           Best Publisher
         </h1>{" "}
         <Link
-          href="authors"
+          href="/publishers"
           className="bg-primary text-white s500:px-4 s500:py-2 px-2 py-1 s500:text-base   s410:text-sm text-xs duration-200 rounded-sm"
         >
           See All

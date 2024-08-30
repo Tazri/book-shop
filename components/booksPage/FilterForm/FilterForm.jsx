@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-const filterFields = ["authors", "category", "publishers", "price"];
+const filterFields = ["authors", "category", "publishers", "price", "page"];
 
 function FilterForm({ children, searchParams, closeRef }) {
   const router = useRouter();

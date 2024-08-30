@@ -6,7 +6,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[1080px] lg:max-w-[1000px] s1400:max-w-[1280px];
+    @apply max-w-[1080px] lg:max-w-[1150px] s1400:max-w-[1280px];
   }
 }
 

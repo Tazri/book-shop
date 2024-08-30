@@ -4,6 +4,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useRef } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const defaultLinks = [
   {
@@ -56,6 +57,13 @@ function CategoryDrawer({ links = defaultLinks }) {
             );
           })}
         </ul>
+
+        <Link
+          href="/category"
+          className="block text-center px-3 py-2 text-white bg-primary mx-3 hover:opacity-90 rounded-sm"
+        >
+          See More
+        </Link>
       </div>
     </div>
   );
