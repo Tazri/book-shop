@@ -9,7 +9,7 @@ function BookPage({ params }) {
         <BreadCrumb path="/books/id" lastPathWord="Ereased" />
       </div>
 
-      <div className="flex flex-row gap-2 justify-between">
+      <div className="flex flex-col md:flex-row gap-2 justify-between">
         <SingleBookDisplay />
         <RelatedBookDisplay />
       </div>
