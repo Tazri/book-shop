@@ -1,46 +1,44 @@
 import React from "react";
 import SpecificationTable from "./SpecificationTable";
+import style from "./styles/SingleBookDetails.module.css";
+import SingleBookAuthorDetails from "./SingleBookAuthorDetails";
 
 function SingleBookDetails() {
   return (
-    <div>
+    <div className={style.singleBookDetails}>
       <h3>Book Specification & Summary</h3>
 
       <div>
         <input
           type="radio"
-          className="peer/spec hidden"
+          className={style.specInput}
           defaultChecked
           name="tab"
           id="spec-tab"
         />
         <input
           type="radio"
-          className="peer/author hidden"
+          className={style.authorInput}
           name="tab"
           id="author-tab"
         />
 
-        <label
-          htmlFor="spec-tab"
-          className="cursor-pointer -mb-[1px] px-3 py-2 inline-block text-[#222222] duration-150 border border-white border-b-[#cccccc] rounded-t-md peer-checked/spec:text-primary peer-checked/spec:border-t-primary peer-checked/spec:border-b-white peer-checked/spec:border-x-[#cccccc]"
-        >
+        <label htmlFor="spec-tab" className={style.specLabel}>
           Specification
         </label>
-        <label
-          htmlFor="author-tab"
-          className="cursor-pointer px-3 py-2 inline-block text-[#222222] -mb-[1px] duration-150 border border-white border-b-[#cccccc] rounded-t-md peer-checked/author:text-primary peer-checked/author:border-t-primary peer-checked/author:border-b-white peer-checked/author:border-x-[#cccccc]"
-        >
+        <label htmlFor="author-tab" className={style.authorLabel}>
           Author
         </label>
 
         <div className="border-[#cccccc] border-t"></div>
 
-        <div className="hidden peer-checked/spec:block p-1">
+        <div className={style.specTab}>
           <SpecificationTable />
         </div>
 
-        <div className="hidden peer-checked/author:block p-1">Author</div>
+        <div className={style.authorTab}>
+          <SingleBookAuthorDetails />
+        </div>
       </div>
     </div>
   );

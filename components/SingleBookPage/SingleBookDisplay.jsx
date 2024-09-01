@@ -3,14 +3,16 @@ import defaultImage from "./../../assets/comics/death_note_by_tsugumi_ohba.webp"
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import SingleBookDetails from "./SingleBookDetails";
+import style from "./styles/SingleBookDisplay.module.css";
+import RatingAndReview from "./RatingAndReview";
 
 function SingleBookDisplay() {
   return (
-    <div className="border flex-grow">
+    <div className={style.SingleBookDisplay}>
       {/** book */}
-      <div className="flex gap-3 flex-col md:flex-row">
+      <div className={style.book}>
         {/** book image */}
-        <div className="w-full duration-200 max-w-36 s200:max-w-40 s220:max-w-44 s320:max-w-48 s500:max-w-52 md:max-w-56">
+        <div>
           <Image
             src={defaultImage}
             alt="book-image"
@@ -21,41 +23,23 @@ function SingleBookDisplay() {
         </div>
 
         {/** book details */}
-        <div className="w-full md:pr-1 flex flex-col gap-3">
-          <h2 className="text-base s320:text-lg s450:text-xl text-[#222222] duration-150">
-            Death Note
-          </h2>
+        <div className={style.bookDetails}>
+          <h2>Death Note</h2>
 
           {/** short details */}
-          <div className="text-[#555555] text-xs s240:text-sm s410:text-base duration-150">
+          <div className={style.bookShortDetails}>
             <p>
-              Author :{" "}
-              <span className="text-primary hover:underline cursor-pointer">
-                Ans Anonymo
-              </span>
+              Author : <span>Ans Anonymo</span>
             </p>
 
             <p>
-              Publisher :{" "}
-              <span className="text-primary hover:underline cursor-pointer">
-                Dimik
-              </span>
+              Publisher : <span>Dimik</span>
             </p>
 
             <div>
               <p>Category :</p>
               <div className="flex flex-wrap gap-0.5">
-                <span className="text-primary hover:underline cursor-pointer">
-                  History
-                </span>
-                ,
-                <span className="text-primary hover:underline cursor-pointer">
-                  Story
-                </span>
-                ,
-                <span className="text-primary hover:underline cursor-pointer">
-                  Mystery
-                </span>
+                <span>History</span>,<span>Story</span>,<span>Mystery</span>
               </div>
             </div>
           </div>
@@ -64,8 +48,8 @@ function SingleBookDisplay() {
           <Description id="book-description" />
 
           {/** price */}
-          <p className="text-xs s240:text-sm s410:text-base s450:text-lg duration-150 text-primary">
-            301$ <span className="text-[#555555] line-through">410$</span> (30%)
+          <p className={style.price}>
+            301$ <span>410$</span> (30%)
           </p>
 
           {/** order */}
@@ -94,15 +78,17 @@ function SingleBookDisplay() {
       </div>
 
       <SingleBookDetails />
+
+      <RatingAndReview />
     </div>
   );
 }
 
 function Description({ id }) {
   return (
-    <div className="text-[0.6rem] s200:text-xs s240:text-sm s410:text-base">
-      <input type="checkbox" className="peer hidden" id={id} />
-      <p className="line-clamp-4 peer-checked:line-clamp-none text-[#555555] ">
+    <div className={style.description}>
+      <input type="checkbox" id={id} />
+      <p>
         The best detective in the world, an eccentric genius named {'"'}L{'"'},
         works with the Japanese police, as well as Light{"'"}s own father, to
         find out Kira{"'"}s identity and catch him. He suspects all along that
@@ -122,16 +108,10 @@ function Description({ id }) {
         Near forms a task force to catch Kira. In the end, Near proves that
         Light is Kira, leading to Light{"'"}s death.
       </p>
-      <label
-        className="cursor-pointer peer-checked:hidden text-primary hover:underline underline-offset-2"
-        htmlFor={id}
-      >
+      <label className={style.showMore} htmlFor={id}>
         See More
       </label>
-      <label
-        className="cursor-pointer hidden peer-checked:block text-primary hover:underline underline-offset-2"
-        htmlFor={id}
-      >
+      <label className={style.showLess} htmlFor={id}>
         Show Less
       </label>
     </div>
