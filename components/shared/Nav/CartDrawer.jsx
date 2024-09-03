@@ -80,7 +80,7 @@ function Summary({ closeRef }) {
         <button
           href="#cart"
           className="block w-full py-2 border border-gray-400 text-gray-600 text-center hover:bg-primary hover:text-white hover:border-primary duration-300 "
-          onClick={() => goPage("#cart")}
+          onClick={() => goPage("/cart")}
         >
           View Cart
         </button>
