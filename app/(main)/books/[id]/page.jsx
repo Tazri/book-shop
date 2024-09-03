@@ -2,7 +2,7 @@ import BreadCrumb from "@/components/shared/BreadCrumb/BreadCrumb";
 import RelatedBookDisplay from "@/components/SingleBookPage/RelatedBookDisplay";
 import SingleBookDisplay from "@/components/SingleBookPage/SingleBookDisplay";
 
-function BookPage({ params }) {
+function BookPage({ params, searchParams }) {
   return (
     <div className="container px-1 mx-auto flex-grow">
       <div className="my-2">
@@ -10,7 +10,7 @@ function BookPage({ params }) {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-2 justify-between">
-        <SingleBookDisplay />
+        <SingleBookDisplay searchParams={searchParams} />
         <RelatedBookDisplay />
       </div>
     </div>

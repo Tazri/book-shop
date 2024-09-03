@@ -1,0 +1,41 @@
+.input1,
+.input2,
+.input3,
+.input4,
+.input5 {
+  @apply hidden;
+}
+
+.star1,
+.star2,
+.star3,
+.star4,
+.star5 {
+  @apply cursor-pointer text-primary relative;
+}
+
+.star1 span + span,
+.star2 span + span,
+.star3 span + span,
+.star4 span + span,
+.star5 span + span {
+  @apply absolute top-0 left-0 scale-0 duration-150;
+}
+
+.input1:checked ~ .star1 span + span,
+.input2:checked ~ .star1 span + span,
+.input2:checked ~ .star2 span + span,
+.input3:checked ~ .star1 span + span,
+.input3:checked ~ .star2 span + span,
+.input3:checked ~ .star3 span + span,
+.input4:checked ~ .star1 span + span,
+.input4:checked ~ .star2 span + span,
+.input4:checked ~ .star3 span + span,
+.input4:checked ~ .star4 span + span,
+.input5:checked ~ .star1 span + span,
+.input5:checked ~ .star2 span + span,
+.input5:checked ~ .star3 span + span,
+.input5:checked ~ .star4 span + span,
+.input5:checked ~ .star5 span + span {
+  @apply scale-100;
+}

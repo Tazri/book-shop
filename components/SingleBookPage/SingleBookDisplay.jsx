@@ -5,8 +5,9 @@ import { FaHeart } from "react-icons/fa";
 import SingleBookDetails from "./SingleBookDetails";
 import style from "./styles/SingleBookDisplay.module.css";
 import RatingAndReview from "./RatingAndReview";
+import BookReview from "./BookReview";
 
-function SingleBookDisplay() {
+function SingleBookDisplay({ searchParams }) {
   return (
     <div className={style.SingleBookDisplay}>
       {/** book */}
@@ -80,6 +81,10 @@ function SingleBookDisplay() {
       <SingleBookDetails />
 
       <RatingAndReview />
+
+      <div className="h-[0.05rem] bg-[#4444] w-[95%] mx-auto my-3"></div>
+
+      <BookReview searchParams={searchParams} />
     </div>
   );
 }
