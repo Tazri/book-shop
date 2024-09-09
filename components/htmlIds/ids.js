@@ -1,5 +1,7 @@
-export const categoryDrawerId = "category-side-drawer-id";
-export const menuDrawerId = "menu-drawer-id";
-export const searchModalId = "search-modal-id";
-export const cartDrawerId = "cart-drawer-id";
-export const filterDrawerId = "filter-drawer-id";
+export const categoryDrawerId = "category-side-drawer-id" + Date.now();
+export const menuDrawerId = "menu-drawer-id" + Date.now();
+export const searchModalId = "search-modal-id" + Date.now();
+export const cartDrawerId = "cart-drawer-id" + Date.now();
+export const filterDrawerId = "filter-drawer-id" + Date.now();
+export const personalInformationFormId =
+  "personalInformationFormId" + Date.now();

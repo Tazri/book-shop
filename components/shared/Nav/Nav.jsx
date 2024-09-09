@@ -2,17 +2,15 @@
 import SearchBar from "./SearchBar";
 import { CiShoppingCart } from "react-icons/ci";
 import { IoBookOutline } from "react-icons/io5";
-import { CiMenuFries } from "react-icons/ci";
 import { IoSearchOutline } from "react-icons/io5";
-import MenuDrawer from "./MenuDrawer";
-import {
-  cartDrawerId,
-  menuDrawerId,
-  searchModalId,
-} from "@/components/htmlIds/ids";
+import { CiLogin } from "react-icons/ci";
+import { cartDrawerId, searchModalId } from "@/components/htmlIds/ids";
 import SearchModal from "./SearchModal";
 import CartDrawer from "./CartDrawer";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import NavAvater from "./NavAvater";
 
 function Nav() {
   const [isTop, setIsTop] = useState(true);
@@ -50,33 +48,37 @@ function Nav() {
           <SearchBar />
         </div>
 
-        <div className="gap-2 items-center justify-center hidden lg:flex">
+        <div className="gap-2 items-center justify-center flex">
           <Button showDot htmlFor={cartDrawerId}>
             <CiShoppingCart />
-          </Button>
-          <button className="bg-primary text-white h-full whitespace-nowrap py-2 px-6 rounded-md">
-            Sign In
-          </button>
-        </div>
-
-        <div className="gap-2 items-center justify-center flex flex-wrap lg:hidden">
-          <Button showDot htmlFor={cartDrawerId}>
-            <ButtonIcon Icon={CiShoppingCart} />
           </Button>
           <Button htmlFor={searchModalId}>
             <ButtonIcon Icon={IoSearchOutline} />
           </Button>
-          <Button htmlFor={menuDrawerId}>
-            <ButtonIcon Icon={CiMenuFries} />
-          </Button>
+
+          {/* <SignInButton /> */}
+          <NavAvater />
         </div>
       </div>
 
       {/** other drawer and modal */}
-      <MenuDrawer />
       <CartDrawer />
       <SearchModal />
     </nav>
+  );
+}
+
+function SignInButton() {
+  return (
+    <>
+      <button className="size-6 s310:size-10 border-[0.1px] s310:border border-gray-400 text-lg flex s260:hidden items-center justify-center rounded-full hover:bg-primary hover:text-white duration-75 hover:border-0 relative group cursor-pointer ">
+        <CiLogin className="text-xs s310:text-base" />
+      </button>
+
+      <button className="bg-primary text-white h-full whitespace-nowrap py-1 lg:py-2 px-2 s310:px-3 s350:px-6 rounded-sm text-xs s310:text-sm s320:text-sm s350:text-base self-center hidden s260:block">
+        Sign In
+      </button>
+    </>
   );
 }
 

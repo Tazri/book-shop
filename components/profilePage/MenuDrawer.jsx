@@ -7,51 +7,47 @@ import { PiUserCircle } from "react-icons/pi";
 import { PiHeart } from "react-icons/pi";
 import { PiGear } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
-import { LuShoppingCart } from "react-icons/lu";
 import { useRef } from "react";
-import { useRouter } from "next/navigation";
-import { CiLogin } from "react-icons/ci";
+import { usePathname, useRouter } from "next/navigation";
+import { MdOutlineReviews } from "react-icons/md";
+import { RxDashboard } from "react-icons/rx";
 
 const defaultLinks = [
   {
-    name: "Profile",
-    link: "#profile",
+    name: "Dashboard",
+    link: "/profile",
+    icon: RxDashboard,
+  },
+
+  {
+    name: "Account",
+    link: "/profile/account",
     icon: PiUserCircle,
   },
   {
-    name: "Order",
-    link: "#order",
+    name: "Orders",
+    link: "/profile/orders",
     icon: PiPackage,
   },
   {
-    name: "Cart",
-    link: "#cart",
-    icon: LuShoppingCart,
-  },
-  {
     name: "Wish List",
-    link: "#wishlist",
+    link: "/profile/wishlist",
     icon: PiHeart,
   },
   {
-    name: "settings",
-    link: "#settins",
-    icon: PiGear,
-  },
-  {
-    name: "Log Out",
-    link: "#LogOut",
-    icon: CiLogout,
-  },
-  {
-    name: "Log In",
-    link: "#login",
-    icon: CiLogin,
+    name: "Reviews",
+    link: "/profile/reviews",
+    icon: MdOutlineReviews,
   },
 ];
 
 function MenuDrawer({ links = defaultLinks }) {
+  const path = usePathname();
   const inputRef = useRef();
+
+  const handleLogOut = () => {
+    console.log("log out");
+  };
 
   return (
     <div className="text-gray-800">
@@ -91,12 +87,27 @@ function MenuDrawer({ links = defaultLinks }) {
                   inputRef={inputRef}
                   key={link?.link}
                   href={link?.link}
+                  isActive={link?.link === path}
                   Icon={link?.icon}
                 >
                   {link?.name}
                 </MenuLink>
               );
             })}
+
+            {/** logout */}
+            <li
+              className="text-sm s310:text-base py-1 border-b hover:text-primary relative group pb-3 capitalize cursor-pointer"
+              onClick={handleLogOut}
+            >
+              <span className="flex items-center gap-2">
+                <span>
+                  <CiLogout className="text-2xl" />
+                </span>
+                Log Out
+              </span>
+              <div className="w-full h-[1px] bg-primary absolute bottom-0 scale-x-0 group-hover:scale-x-100 duration-200 origin-left"></div>
+            </li>
           </ul>
         </div>
       </div>
@@ -104,7 +115,7 @@ function MenuDrawer({ links = defaultLinks }) {
   );
 }
 
-function MenuLink({ children, href, Icon, inputRef }) {
+function MenuLink({ children, href, Icon, inputRef, isActive }) {
   const router = useRouter();
   const handleClick = () => {
     inputRef?.current?.click();
@@ -112,7 +123,9 @@ function MenuLink({ children, href, Icon, inputRef }) {
   };
   return (
     <li
-      className="text-sm s310:text-base py-1 border-b hover:text-primary relative group pb-3 capitalize cursor-pointer"
+      className={`text-sm s310:text-base py-1 border-b hover:text-primary relative group pb-3 capitalize cursor-pointer ${
+        isActive ? "text-primary" : ""
+      }`}
       onClick={handleClick}
     >
       <span
