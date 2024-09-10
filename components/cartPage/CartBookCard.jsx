@@ -1,50 +1,66 @@
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import defaultImg from "./../../assets/comics/attack_on_titan_vol_3_by_hajime_isayama.webp";
 
-function CartBookCard({ total = 1, bookId = "book-bookId" }) {
+function CartBookCard({
+  total = 1,
+  bookId = "book-bookId",
+  register,
+  setValue,
+}) {
   const [count, setCount] = useState(total);
-  const inputRef = useRef();
+  const inputName = "book-" + bookId;
 
   const handleIncrement = () => {
-    const updateCount = count - 1;
+    const updateCount = count + 1;
 
-    if (updateCount > 0 && inputRef.current) {
+    if (updateCount < 100) {
       setCount(updateCount);
-      inputRef.current.value = updateCount;
     }
   };
 
   const handleDecrement = () => {
-    const updateCount = count + 1;
-
-    if (updateCount > 0 && inputRef.current) {
+    const updateCount = count - 1;
+    if (updateCount >= 1) {
       setCount(updateCount);
-      inputRef.current.value = updateCount;
     }
   };
 
-  const handleInput = (e) => {
-    const num = parseInt(e.target.value);
+  const handleChange = (e) => {
+    const value = e.target.value;
 
-    if (isNaN(num) && inputRef.current) {
-      inputRef.current.value = count;
+    if (value === "") {
+      setCount("");
       return;
     }
 
-    if (num > 0 && num < 100 && inputRef.current) {
-      setCount(num);
-      inputRef.current.value = num;
-    } else if (num >= 100 && inputRef.current) {
-      setCount(99);
-      inputRef.current.value = 99;
-    } else if (num < 1 && inputRef.current) {
+    if (!isNumberText(value)) return;
+
+    setCount(parseInt(value));
+  };
+
+  const handleBlur = () => {
+    if (count === "") {
       setCount(1);
-      inputRef.current.value = 1;
+      return;
+    }
+
+    if (count > 99) {
+      setCount(99);
+      return;
+    }
+
+    if (count < 1) {
+      setCount(1);
+      return;
     }
   };
+
+  useEffect(() => {
+    setValue(inputName, count);
+  }, [setValue, count]);
 
   return (
     <div className="border p-3 flex gap-3 justify-between s240:items-center flex-col  s240:flex-row">
@@ -81,22 +97,23 @@ function CartBookCard({ total = 1, bookId = "book-bookId" }) {
       <div className="flex items-center justify-center border border-[#eeeeee] bg-[#eeeeee] h-fit flex-row s240:flex-col s340:flex-row self-start s240:self-center">
         <button
           className="py-0.5 s450:py-1.5 px-1.5 s450:px-2.5 text-[#555555] text-xs s450:text-sm duration-150"
-          onClick={handleIncrement}
+          onClick={handleDecrement}
           type="button"
         >
           <FaMinus />
         </button>
         <input
-          name={"book-" + bookId}
+          {...register(inputName)}
+          name={inputName}
           type="text"
           className="h-full p-1 focus:outline-none block w-8 s450:w-10 text-center text-[#444444] duration-150 text-sm"
-          defaultValue={count}
-          onBlur={handleInput}
-          ref={inputRef}
+          value={count}
+          onBlur={handleBlur}
+          onChange={handleChange}
         />
         <button
           className="py-0.5 s450:py-1.5 px-1.5 s450:px-2.5 text-[#555555] text-xs s450:text-sm duration-150"
-          onClick={handleDecrement}
+          onClick={handleIncrement}
           type="button"
         >
           <FaPlus />
@@ -111,6 +128,16 @@ function CartBookCard({ total = 1, bookId = "book-bookId" }) {
       </div>
     </div>
   );
+}
+
+function isNumberText(num) {
+  const digits = "0123456789";
+
+  for (const char of num) {
+    if (!digits.includes(char)) return false;
+  }
+
+  return true;
 }
 
 export default CartBookCard;
