@@ -1,12 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileAccountHeader from "../shared/ProfileAccountHeader";
 import ProfileDisplayField from "../shared/ProfileDisplayField";
 import AddressInformationForm from "./AddressInformationForm";
 import UpdateButton from "../shared/UpdateButton";
+import { getDemoCity } from "@/data/demoCity";
 
 function AddressInformation() {
   const [isEdit, setIsEdit] = useState(false);
+  const [allCity, setAllCity] = useState([]);
+
+  useEffect(() => {
+    const allcityData = getDemoCity();
+    setAllCity(allcityData);
+  }, []);
+
   return (
     <>
       <ProfileAccountHeader>Address</ProfileAccountHeader>
@@ -33,6 +41,9 @@ function AddressInformation() {
           address={
             "John Doe \n1234 Elm Street\nApt 567\nDowntown District\nSpringfield, IL\n62704\nUSA"
           }
+          city="dhakaid"
+          area="kilkhetid"
+          allCity={allCity}
           close={() => setIsEdit(false)}
         />
       )}

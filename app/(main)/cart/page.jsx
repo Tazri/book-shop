@@ -4,21 +4,33 @@ import CartList from "@/components/cartPage/CartList";
 import CheckoutSummary from "@/components/cartPage/CheckoutSummary";
 import { getDemoCity } from "@/data/demoCity";
 import { isValidPhoneNumber } from "@/libs/validation";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 function CartPage() {
-  const { register, setValue, handleSubmit } = useForm();
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [allCity, setAllCity] = useState([]);
-  const sumbitAction = (formData) => {
-    console.log(formData);
-  };
 
   useEffect(() => {
     const allCityData = getDemoCity();
     setAllCity(allCityData);
   }, []);
+
+  const sumbitAction = (formData) => {
+    const books = getBooks(formData);
+    const orderData = {
+      addressDetails: formData.address,
+      city: formData.city,
+      area: formData.area,
+      orders: books,
+    };
+
+    console.log(orderData);
+  };
   return (
     <form
       onSubmit={handleSubmit(sumbitAction)}
@@ -32,6 +44,7 @@ function CartPage() {
           setValue={setValue}
           allCity={allCity}
           register={register}
+          errors={errors}
         />
         <CheckoutSummary />
         <button className="bg-primary text-white py-2 px-3 text-xs s185:text-sm s220:text-base duration-150">

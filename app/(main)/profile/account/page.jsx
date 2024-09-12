@@ -1,5 +1,7 @@
 import AddressInformation from "@/components/profilePage/profileAccountPage/addressInfromation/AddressInformation";
+import PasswordInformation from "@/components/profilePage/profileAccountPage/PasswordInformation/PasswordInformation";
 import PersonalInformation from "@/components/profilePage/profileAccountPage/PersonalInformation/PersonalInformation";
+import ProfilePictureForm from "@/components/profilePage/profileAccountPage/ProfilePictureForm/ProfilePictureForm";
 import React from "react";
 
 function ProfileAccountPage() {
@@ -7,6 +9,8 @@ function ProfileAccountPage() {
     <div className="px-4 pb-5 pt-3 border-t border-t-primary flex-col gap-2 flex">
       <PersonalInformation />
       <AddressInformation />
+      <ProfilePictureForm />
+      <PasswordInformation />
     </div>
   );
 }

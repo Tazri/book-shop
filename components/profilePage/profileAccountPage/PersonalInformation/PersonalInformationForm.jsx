@@ -1,7 +1,7 @@
 "use client";
 import AccountInputField from "../shared/AccountInputField";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   isValidEmail,
   isValidName,
@@ -23,7 +23,15 @@ function PersonalInformationForm({
   const [name, setName] = useState(nameProps);
   const [phone, setPhone] = useState(phoneProps);
   const [email, setEmail] = useState(emailProps);
-  const err = "";
+  const [isSame, setIsSame] = useState(true);
+
+  useEffect(() => {
+    if (name === nameProps && phone === phoneProps && email === emailProps) {
+      setIsSame(true);
+    } else {
+      setIsSame(false);
+    }
+  }, [phone, email, name, nameProps, phoneProps, emailProps]);
 
   const handleFormData = (formData) => {
     console.log(formData);
@@ -167,7 +175,7 @@ function PersonalInformationForm({
         />
       </AccountInputField>
 
-      <CancelAndSaveButton cancel={close} />
+      <CancelAndSaveButton disabled={isSame} cancel={close} />
     </form>
   );
 }

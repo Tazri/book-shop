@@ -1,6 +1,7 @@
+import { isValidPhoneNumber } from "@/libs/validation";
 import { useEffect, useState } from "react";
 
-function AddressForm({ register, allCity, setValue }) {
+function AddressForm({ register, allCity, setValue, errors }) {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("feniId");
@@ -9,7 +10,7 @@ function AddressForm({ register, allCity, setValue }) {
   useEffect(() => {
     setValue("city", city);
     setValue("area", area);
-  }, []);
+  }, [area, city, setValue]);
 
   function handlePhone(e) {
     const value = e.target.value;
@@ -58,6 +59,33 @@ function AddressForm({ register, allCity, setValue }) {
   const selectClassName =
     "w-full bg-transparent p-2 focus:outline-none cursor-pointer text-[#444444] text-sm s220:text-base   duration-150";
 
+  const { ref: cityRef, ...cityRest } = register("city", {
+    require: "Please select city.",
+    validate: (value) => (value === "" ? "Please select city" : true),
+  });
+
+  const { ref: areaRef, ...areaRest } = register("area", {
+    require: "Please select area.",
+    validate: (value) => (value == "" ? "PLease select area." : true),
+  });
+
+  const { ref: phoneRef, ...phoneRest } = register("phone", {
+    require: "Please enter your phone number.",
+    validate: (value) => {
+      const check = isValidPhoneNumber(value);
+      return check ? check : true;
+    },
+  });
+
+  const { ref: addressRef, ...addressRest } = register("address", {
+    require: "Please enter your address details.",
+    validate: (value) => {
+      return value?.length < 10 && value?.length > 100
+        ? "Address details must be between 10 to 100 characters."
+        : true;
+    },
+  });
+
   return (
     <div className="gap-3 flex flex-col border p-3">
       <h2 className="pb-3 border-b text-base s280:text-lg text-[#222222] duration-150">
@@ -65,10 +93,10 @@ function AddressForm({ register, allCity, setValue }) {
       </h2>
 
       {/* city select */}
-      <SelectField>
+      <SelectField error={errors["city"]?.message}>
         <select
-          {...register("city")}
-          name="city"
+          {...cityRest}
+          ref={cityRef}
           value={city}
           onChange={handleCity}
           className={selectClassName}
@@ -85,10 +113,10 @@ function AddressForm({ register, allCity, setValue }) {
       </SelectField>
 
       {/* area select */}
-      <SelectField>
+      <SelectField error={errors["area"]?.message}>
         <select
-          {...register("area")}
-          name="area"
+          {...areaRest}
+          ref={areaRef}
           value={area}
           onChange={handleArea}
           className={selectClassName}
@@ -104,25 +132,29 @@ function AddressForm({ register, allCity, setValue }) {
         </select>
       </SelectField>
 
-      <InputField>
+      <InputField error={errors["phone"]?.message}>
         <input
-          {...register("phone")}
-          className="p-2 border border-[#cccccc] w-full focus:outline-none text-[#444444] text-xs s185:text-sm s450:text-base"
+          {...phoneRest}
+          ref={phoneRef}
+          className={`p-2 border border-[#cccccc] w-full focus:outline-none text-[#444444] text-xs s185:text-sm s450:text-base ${
+            errors["phone"]?.message ? "border-rose-600" : ""
+          }`}
           type="tel"
-          name="phone"
           onChange={handlePhone}
           value={phone}
           placeholder="Enter Mobile Number"
         />
       </InputField>
 
-      <InputField>
+      <InputField error={errors["address"]?.message}>
         <textarea
-          {...register("address")}
-          name="address"
+          {...addressRest}
+          ref={addressRef}
           value={address}
           onChange={handleAddress}
-          className="w-full border border-[#cccccc] focus:outline-none min-h-32 p-2 text-[#444444] text-xs s185:text-sm s450:text-base"
+          className={`w-full border border-[#cccccc] focus:outline-none min-h-32 p-2 text-[#444444] text-xs s185:text-sm s450:text-base ${
+            errors["address"]?.message ? "border-rose-600" : ""
+          }`}
           placeholder="Enter More Details of Your Address..."
         />
       </InputField>
