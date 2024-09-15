@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CancelAndSaveButton from "../shared/CancelAndSaveButton";
 import AccountInputField from "../shared/AccountInputField";
 import { useForm } from "react-hook-form";
+import AccountSelectInput from "../shared/AccountSelectInput";
 
 function AddressInformationForm({
   close = () => {},
@@ -16,7 +17,8 @@ function AddressInformationForm({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({ mode: "onChange", reValidateMode: "onChange" });
+    trigger,
+  } = useForm();
 
   const [address, setAddress] = useState(propAddress);
   const [city, setCity] = useState(propCity);
@@ -36,11 +38,13 @@ function AddressInformationForm({
     setValue("area", "");
     setArea("");
     setCity(value);
+    trigger(["area"]);
   };
 
   const handleArea = (e) => {
     const value = e.target.value;
     setArea(value);
+    trigger(["area"]);
   };
 
   const handleAddress = (e) => {
@@ -81,30 +85,25 @@ function AddressInformationForm({
         name={"City"}
         id="profile-city"
       >
-        <div
-          className={`w-full pr-3 bg-[#eeeeee] ${
-            errors["city"]?.message ? "border-rose-600 border" : ""
-          }`}
+        <AccountSelectInput
+          error={errors["city"]}
+          {...register("city", {
+            required: "Please select the city.",
+            validate: (value) => (value === "" ? "Please select city" : true),
+            onChange: handleCity,
+            value: city,
+          })}
+          id="profile-city"
         >
-          <select
-            {...register("city", {
-              validate: (value) => (value === "" ? "Please select city" : true),
-            })}
-            className={`${selectClass}`}
-            id="profile-city"
-            value={city}
-            onChange={handleCity}
-          >
-            <option value="">Select City</option>
-            {allCity?.map((cityObj) => {
-              return (
-                <option key={cityObj?.id} value={cityObj?.id}>
-                  {cityObj?.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+          <option value="">Select City</option>
+          {allCity?.map((cityObj) => {
+            return (
+              <option key={cityObj?.id} value={cityObj?.id}>
+                {cityObj?.name}
+              </option>
+            );
+          })}
+        </AccountSelectInput>
       </AccountInputField>
 
       <AccountInputField
@@ -112,31 +111,25 @@ function AddressInformationForm({
         name={"Area"}
         id="profile-area"
       >
-        <div
-          className={`w-full pr-3 bg-[#eeeeee] ${
-            errors["area"]?.message ? "border-rose-600 border" : ""
-          }`}
+        <AccountSelectInput
+          error={errors["area"]}
+          {...register("area", {
+            validate: (value) => (value === "" ? "Please select area" : true),
+            onChange: handleArea,
+            value: area,
+          })}
+          id="profile-area"
         >
-          <select
-            {...register("area", {
-              validate: (value) => (value === "" ? "Please select area" : true),
-            })}
-            className={`${selectClass}`}
-            id="profile-city"
-            value={area}
-            onChange={handleArea}
-          >
-            <option value="">Select Area</option>
+          <option value="">Select Area</option>
 
-            {areas?.map((area) => {
-              return (
-                <option key={area?.id} value={area?.id}>
-                  {area?.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+          {areas?.map((area) => {
+            return (
+              <option key={area?.id} value={area?.id}>
+                {area?.name}
+              </option>
+            );
+          })}
+        </AccountSelectInput>
       </AccountInputField>
 
       <AccountInputField
@@ -151,11 +144,11 @@ function AddressInformationForm({
                 ? "Address details should be between 10 to 100 characters"
                 : true;
             },
+            onChange: handleAddress,
+            value: address,
           })}
           id="profile-address"
-          className="border border-[#cccccc] p-2 text-[#222222] focus:outline-none resize-none h-48"
-          onChange={handleAddress}
-          value={address}
+          className="border border-[#cccccc] text-[#222222] focus:outline-none resize-none h-48 text-[0.65rem]  s200:text-xs  s240:text-sm s410:text-base p-1.5 s350:p-2 duration-150"
         ></textarea>
       </AccountInputField>
 

@@ -12,6 +12,7 @@ function CartPage() {
     setValue,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm();
   const [allCity, setAllCity] = useState([]);
 
@@ -45,6 +46,7 @@ function CartPage() {
           allCity={allCity}
           register={register}
           errors={errors}
+          trigger={trigger}
         />
         <CheckoutSummary />
         <button className="bg-primary text-white py-2 px-3 text-xs s185:text-sm s220:text-base duration-150">

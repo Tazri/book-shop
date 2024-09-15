@@ -8,6 +8,7 @@ import {
   isValidPhoneNumber,
 } from "@/libs/validation";
 import CancelAndSaveButton from "../shared/CancelAndSaveButton";
+import AccountTextInput from "../shared/AccounTexttInput";
 
 function PersonalInformationForm({
   close = () => {},
@@ -106,22 +107,19 @@ function PersonalInformationForm({
         id="profile-name"
         error={errors["name"]?.message}
       >
-        <input
+        <AccountTextInput
+          error={errors["name"]}
           {...register("name", {
             validate: (value) => {
               const check = isValidName(value);
 
               return check ? check : true;
             },
+            onChange: handleName,
+            value: name,
           })}
-          id="profile-name"
-          name="name"
-          className={`border focus:outline-none p-2 text-[#222222] ${
-            errors["name"] ? "border-rose-600" : ""
-          }`}
           type="text"
-          value={name}
-          onChange={handleName}
+          id="profile-name"
         />
       </AccountInputField>
 
@@ -130,7 +128,7 @@ function PersonalInformationForm({
         id="profile-email"
         error={errors["email"]?.message}
       >
-        <input
+        <AccountTextInput
           {...register("email", {
             required: "Please enter email.",
             validate: (value) => {
@@ -138,15 +136,12 @@ function PersonalInformationForm({
 
               return check ? check : true;
             },
+            onChange: handleEmail,
+            value: email,
           })}
-          onChange={handleEmail}
           id="profile-email"
-          name="email"
-          className={`border focus:outline-none p-2 text-[#222222] ${
-            errors["email"] ? "border-rose-600" : ""
-          }`}
           type="text"
-          value={email}
+          error={errors["email"]}
         />
       </AccountInputField>
 
@@ -155,7 +150,8 @@ function PersonalInformationForm({
         id="profile-phone"
         error={errors["phone"]?.message}
       >
-        <input
+        <AccountTextInput
+          error={errors["phone"]}
           {...register("phone", {
             required: "Please enter phone number",
             validate: (value) => {
@@ -163,15 +159,12 @@ function PersonalInformationForm({
 
               return check ? check : true;
             },
+
+            onChange: handlePhone,
+            value: phone,
           })}
-          onChange={handlePhone}
           id="profile-phone"
-          name="phone"
-          className={`border focus:outline-none p-2 text-[#222222] ${
-            errors["phone"] ? "border-rose-600" : ""
-          }`}
           type="text"
-          value={phone}
         />
       </AccountInputField>
 

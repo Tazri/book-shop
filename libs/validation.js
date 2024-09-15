@@ -16,9 +16,13 @@ export function isValidEmail(email) {
 }
 
 export function isValidName(name) {
-  if (/^[ .]|[ .]$/.test(name)) {
-    return "Name cannot start or end with space or dot.";
+  if (/^[.]|[.]$/.test(name)) {
+    return "Name cannot start or end with dot.";
   }
+
+  // if (/\s.\s/.test(name)) {
+  //   return "Dot used only with character.";
+  // }
 
   if (/[.]{2,}/.test(name)) {
     return "Name cannot contain consecutive dots.";
@@ -34,6 +38,24 @@ export function isValidName(name) {
 
   if (name.length < 5 || name.length > 16) {
     return "Name must be between 5 to 16 characters and alphanumeric.";
+  }
+
+  return "";
+}
+
+export function isValidPassword(password) {
+  if (password.length === 0) {
+    return "Please enter your new password.";
+  }
+  const pattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  if (!pattern.test(password)) {
+    return "Password must include at least 1 uppercase, 1 lowercase, 1 number, and 1 special character";
+  }
+
+  if (password.length < 8) {
+    return "Password must be at least 8 characters long";
   }
 
   return "";

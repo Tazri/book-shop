@@ -6,7 +6,7 @@ import React from "react";
 
 function ProfileAccountPage() {
   return (
-    <div className="px-4 pb-5 pt-3 border-t border-t-primary flex-col gap-2 flex">
+    <div className="px-1 md:px-4 pb-5 pt-3 border-t-0 md:border-t md:border-t-primary flex-col gap-2 flex duration-150">
       <PersonalInformation />
       <AddressInformation />
       <ProfilePictureForm />

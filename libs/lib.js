@@ -26,3 +26,8 @@ export function getPagination(lastPage, activePage, delta = 2) {
 
   return pagination;
 }
+
+export function getDiscountedPrice(price, discount) {
+  const result = price - (price / 100) * discount;
+  return result;
+}

@@ -1,7 +1,7 @@
 import { isValidPhoneNumber } from "@/libs/validation";
 import { useEffect, useState } from "react";
 
-function AddressForm({ register, allCity, setValue, errors }) {
+function AddressForm({ register, allCity, setValue, errors, trigger }) {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("feniId");
@@ -44,11 +44,13 @@ function AddressForm({ register, allCity, setValue, errors }) {
     setCity(value);
     setArea("");
     setValue("area", "");
+    trigger(["area"]);
   }
 
   function handleArea(e) {
     const value = e.target.value;
     setArea(value);
+    trigger(["area"]);
   }
 
   // all area
@@ -62,11 +64,13 @@ function AddressForm({ register, allCity, setValue, errors }) {
   const { ref: cityRef, ...cityRest } = register("city", {
     require: "Please select city.",
     validate: (value) => (value === "" ? "Please select city" : true),
+    onChange: handleCity,
   });
 
   const { ref: areaRef, ...areaRest } = register("area", {
     require: "Please select area.",
     validate: (value) => (value == "" ? "PLease select area." : true),
+    onChange: handleArea,
   });
 
   const { ref: phoneRef, ...phoneRest } = register("phone", {
@@ -75,15 +79,17 @@ function AddressForm({ register, allCity, setValue, errors }) {
       const check = isValidPhoneNumber(value);
       return check ? check : true;
     },
+    onChange: handlePhone,
   });
 
   const { ref: addressRef, ...addressRest } = register("address", {
     require: "Please enter your address details.",
     validate: (value) => {
-      return value?.length < 10 && value?.length > 100
+      return value?.length < 10 || value?.length > 100
         ? "Address details must be between 10 to 100 characters."
         : true;
     },
+    onChange: handleAddress,
   });
 
   return (
@@ -98,7 +104,6 @@ function AddressForm({ register, allCity, setValue, errors }) {
           {...cityRest}
           ref={cityRef}
           value={city}
-          onChange={handleCity}
           className={selectClassName}
         >
           <option value="">Select City</option>
@@ -118,7 +123,6 @@ function AddressForm({ register, allCity, setValue, errors }) {
           {...areaRest}
           ref={areaRef}
           value={area}
-          onChange={handleArea}
           className={selectClassName}
         >
           <option value={""}>Select Area</option>
@@ -140,7 +144,6 @@ function AddressForm({ register, allCity, setValue, errors }) {
             errors["phone"]?.message ? "border-rose-600" : ""
           }`}
           type="tel"
-          onChange={handlePhone}
           value={phone}
           placeholder="Enter Mobile Number"
         />
@@ -151,7 +154,6 @@ function AddressForm({ register, allCity, setValue, errors }) {
           {...addressRest}
           ref={addressRef}
           value={address}
-          onChange={handleAddress}
           className={`w-full border border-[#cccccc] focus:outline-none min-h-32 p-2 text-[#444444] text-xs s185:text-sm s450:text-base ${
             errors["address"]?.message ? "border-rose-600" : ""
           }`}

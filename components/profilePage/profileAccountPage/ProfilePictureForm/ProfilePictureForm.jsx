@@ -16,7 +16,7 @@ function ProfilePictureForm() {
         />
         <label
           htmlFor="profile-image-uploader"
-          className="cursor-pointer relative rounded-full size-20 overflow-hidden group"
+          className="cursor-pointer relative rounded-full size-16 s350:size-20 overflow-hidden group duration-150"
         >
           <div className="h-full w-full absolute left-0 right-0 bg-[#0000005b] duration-150 scale-0 group-hover:scale-100 flex items-center justify-center">
             <TbPhotoPlus className="text-white text-2xl" />
@@ -29,7 +29,9 @@ function ProfilePictureForm() {
             className="h-full w-full rounded-full"
           />
         </label>
-        <p className="text-xs text-[#333333]">(PNG/JPG/JPEG, Max. 1.5MB)</p>
+        <p className="text-[0.65rem] s220:text-xs text-[#333333] duration-150">
+          (PNG/JPG/JPEG, Max. 1.5MB)
+        </p>
       </div>
     </>
   );

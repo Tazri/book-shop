@@ -29,7 +29,7 @@ function AddressInformation() {
             <p className="text-[#222222]">Address Details </p>
             <textarea
               readOnly
-              className="border border-[#cccccc] p-2 bg-[#eeeeee] text-[#444444] focus:outline-none resize-none h-48"
+              className="border border-[#cccccc] bg-[#eeeeee] text-[#444444] focus:outline-none resize-none h-40  s350:h-48 text-[0.65rem]  s200:text-xs  s240:text-sm s410:text-base  p-1.5 s350:p-2 duration-150"
               value={
                 "John Doe \n1234 Elm Street\nApt 567\nDowntown District\nSpringfield, IL\n62704\nUSA"
               }
