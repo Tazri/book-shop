@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 @layer components {
-  .container {
+  /* .container {
     @apply max-w-[1080px] lg:max-w-[1150px] s1400:max-w-[1280px];
-  }
+  } */
 }
 
 * {

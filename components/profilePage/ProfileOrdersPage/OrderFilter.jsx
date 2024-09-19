@@ -41,7 +41,7 @@ function OrderFilter() {
           className={`text-xs s220:text-sm s250:text-base w-full bg-inherit border focus:outline-none cursor-pointer duration-150 text-${
             status === "any" ? "[#222222]" : allStatusColor[status]
           }`}
-          defaultValue={""}
+          defaultValue={status}
           onChange={handleStatusChange}
         >
           <option className="text-[#222222]" value="any">

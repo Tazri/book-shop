@@ -23,7 +23,7 @@ function BookCard({ book }) {
             className=""
           />
         </Link>
-        <button className="bg-primary text-white w-full absolute bottom-0 left-0 translate-y-0 sm:translate-y-full group-hover:translate-y-0 duration-200 s450:py-2 py-1 s450:text-sm sm:text-base text-xs">
+        <button className="bg-primary text-white w-full absolute bottom-0 left-0 translate-y-0 sm:translate-y-[120%] group-hover:translate-y-0 duration-200 s450:py-2  s280:py-1 py-0.5 s450:text-sm sm:text-base  s320:text-xs text-[0.65rem]">
           Add To Card
         </button>
       </div>
@@ -40,7 +40,9 @@ function BookCard({ book }) {
 
         <div className="flex gap-1 items-center">
           <Stars star={book?.rating} />
-          <span className="text-[0.7rem] text-[#434343]">(16)</span>
+          <span className="text-[0.6rem] s280:text-[0.7rem] text-[#434343] duration-150">
+            (16)
+          </span>
         </div>
 
         <p className="s500:text-base s450:text-sm s260:text-xs text-[0.6rem] leading-3 duration-200 text-primary font-semibold">
@@ -59,7 +61,10 @@ function Stars({ star = 3.5 }) {
 
   for (let i = 0; i < starInt; i++) {
     stars.push(
-      <FaStar key={i + "fill"} className="s240:text-sm text-[0.6rem]" />
+      <FaStar
+        key={i + "fill"}
+        className="s280:text-sm text-[0.6rem] duration-150"
+      />
     );
   }
 
@@ -69,7 +74,7 @@ function Stars({ star = 3.5 }) {
     stars.push(
       <FaRegStarHalfStroke
         key="half-star"
-        className="s240:text-sm text-[0.6rem]"
+        className="s280:text-sm text-[0.6rem] duration-150"
       />
     );
     unFillStar--;
@@ -77,7 +82,10 @@ function Stars({ star = 3.5 }) {
 
   for (let i = 0; i < unFillStar; i++) {
     stars.push(
-      <FaRegStar key={i + "unfill"} className="s240:text-sm text-[0.6rem]" />
+      <FaRegStar
+        key={i + "unfill"}
+        className="s280:text-sm text-[0.6rem] duration-150"
+      />
     );
   }
 

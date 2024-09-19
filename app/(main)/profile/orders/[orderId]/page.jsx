@@ -1,7 +1,7 @@
 import OrderStatusBadge from "@/components/profilePage/ProfileOrdersPage/OrderStatusBadge";
+import OrderCancelModal from "@/components/profilePage/ProfileOrdersPage/SingleOrderPage/OrderCancelModal";
 import OrderTable from "@/components/profilePage/ProfileOrdersPage/SingleOrderPage/OrderTable";
 import React from "react";
-import OrderCancelModal from "./OrderCancelModal";
 
 const cancelStatus = ["processing", "approved"];
 
@@ -27,6 +27,27 @@ function SingleOrderPage({ params }) {
 
       <div className="overflow-x-scroll py-3">
         <OrderTable />
+      </div>
+
+      <div>
+        <h3 className="text-[#444444] text-xs  s200:text-sm  s320:text-base s410:text-lg s450:text-xl duration-150">
+          Address
+        </h3>
+        <p className="text-[0.6rem] s185:text-xs s320:text-sm s450:text-base text-[#444444] duration-150">
+          City : Dhaka
+        </p>
+
+        <p className="text-[0.6rem] s185:text-xs s320:text-sm s450:text-base text-[#444444] duration-150 mb-1">
+          Area : Nikonjo
+        </p>
+
+        <textarea
+          readOnly
+          className="text-[0.6rem] s185:text-xs s320:text-sm s450:text-base text-[#444444] duration-150 min-h-48 focus:outline-none border border-[#bbbbbb] rounded-sm p-1 resize-none bg-[#eeeeee] max-w-56 w-full"
+          value={
+            "John Doe\n1234 Elm Street\nApt 567\nDowntown District\nSpringfield, IL\n62704\nUSA"
+          }
+        ></textarea>
       </div>
 
       {cancelStatus.includes(status) ? (

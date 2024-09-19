@@ -47,15 +47,14 @@ export function isValidPassword(password) {
   if (password.length === 0) {
     return "Please enter your new password.";
   }
+  if (password.length < 8) {
+    return "Password must be at least 8 characters long";
+  }
   const pattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   if (!pattern.test(password)) {
     return "Password must include at least 1 uppercase, 1 lowercase, 1 number, and 1 special character";
-  }
-
-  if (password.length < 8) {
-    return "Password must be at least 8 characters long";
   }
 
   return "";

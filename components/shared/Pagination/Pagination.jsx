@@ -39,7 +39,7 @@ function Pagination({ path, searchParams, lastPage = 34 }) {
         return (
           <PageButton
             disabled={activePage === page || page === "..."}
-            href={path + "?" + queryString}
+            href={"?" + queryString}
             active={activePage === page}
             page={page}
             key={page}
@@ -61,7 +61,7 @@ function PageButton({ page = 1, active, disabled, href = "#" }) {
     return (
       <button
         disabled
-        className={`px-1 s240:px-2 s580:px-4 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem] s350:text-xs s450:text-sm s580:text-base flex items-center justify-center disabled:cursor-not-allowed ${
+        className={`px-1 s240:px-2 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s380:text-xs s450:text-sm s580:text-base flex items-center justify-center disabled:cursor-not-allowed ${
           active ? "text-primary" : "text-[#444444]"
         }`}
       >
@@ -71,8 +71,9 @@ function PageButton({ page = 1, active, disabled, href = "#" }) {
   }
   return (
     <Link
+      scroll={true}
       href={href}
-      className={`px-0.5 s200:px-1 s320:px-2 s580:px-4 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s350:text-xs s450:text-sm s580:text-base flex items-center justify-center ${
+      className={`px-0.5 s200:px-1 s320:px-2 s580:px-3 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s350:text-xs s450:text-sm s580:text-base flex items-center justify-center ${
         active ? "text-primary" : "text-[#444444]"
       } disabled:cursor-not-allowed disabled:opacity-75 `}
     >

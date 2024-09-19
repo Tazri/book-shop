@@ -52,12 +52,14 @@ function Nav() {
           <Button showDot htmlFor={cartDrawerId}>
             <CiShoppingCart />
           </Button>
-          <Button htmlFor={searchModalId}>
-            <ButtonIcon Icon={IoSearchOutline} />
-          </Button>
+          <div className="lg:hidden">
+            <Button htmlFor={searchModalId}>
+              <ButtonIcon Icon={IoSearchOutline} />
+            </Button>
+          </div>
 
-          {/* <SignInButton /> */}
-          <NavAvater />
+          <SignInButton />
+          {/* <NavAvater /> */}
         </div>
       </div>
 
@@ -71,13 +73,18 @@ function Nav() {
 function SignInButton() {
   return (
     <>
-      <button className="size-6 s310:size-10 border-[0.1px] s310:border border-gray-400 text-lg flex s260:hidden items-center justify-center rounded-full hover:bg-primary hover:text-white duration-75 hover:border-0 relative group cursor-pointer ">
+      <Link
+        href="/signin"
+        className="size-6 s310:size-10 border-[0.1px] s310:border border-gray-400 text-lg flex s260:hidden items-center justify-center rounded-full hover:bg-primary hover:text-white duration-75 hover:border-0 relative group cursor-pointer "
+      >
         <CiLogin className="text-xs s310:text-base" />
-      </button>
+      </Link>
 
-      <button className="bg-primary text-white h-full whitespace-nowrap py-1 lg:py-2 px-2 s310:px-3 s350:px-6 rounded-sm text-xs s310:text-sm s320:text-sm s350:text-base self-center hidden s260:block">
-        Sign In
-      </button>
+      <Link href="/signin" className="h-full hidden s260:block">
+        <button className="bg-primary text-white h-full whitespace-nowrap py-1 lg:py-2 px-2 s310:px-3 s350:px-6 rounded-sm text-xs s310:text-sm s320:text-sm s350:text-base self-center">
+          Sign In
+        </button>
+      </Link>
     </>
   );
 }

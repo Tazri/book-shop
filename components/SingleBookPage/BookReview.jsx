@@ -2,16 +2,19 @@ import Image from "next/image";
 import defaultImage from "./../../assets/authors/Alfons.webp";
 import Stars from "../shared/Stars/Stars";
 import Pagination from "../shared/Pagination/Pagination";
+import { SlLike } from "react-icons/sl";
+import { SlDislike } from "react-icons/sl";
+
 function BookReview({ searchParams }) {
   return (
     <div className="p-1">
       <p className="text-[#222222] text-2xl mb-3">Reviews</p>
 
       <div className="flex flex-col gap-3">
-        <Review />
-        <Review />
-        <Review />
-        <Review />
+        <Review id="1" />
+        <Review id="2" />
+        <Review id="3" />
+        <Review id="4" />
       </div>
 
       <Pagination searchParams={searchParams} />
@@ -75,6 +78,18 @@ function Review({ id: propsId = "commentId" + Date.now() }) {
         >
           See Less
         </label>
+      </div>
+
+      {/** like box */}
+      <div className="flex gap-2 mt-4 justify-end">
+        <button className="text-[#444444] hover:text-primary flex items-center gap-1">
+          <span className="text-xs s340:text-sm duration-150">12</span>
+          <SlLike className="text-base s340:text-lg duration-150" />
+        </button>
+        <button className="text-[#444444] hover:text-red-600 flex items-center gap-1">
+          <SlDislike className="text-base s340:text-lg duration-150" />
+          <span className="text-xs s340:text-sm duration-150">2</span>
+        </button>
       </div>
     </div>
   );
