@@ -31,3 +31,11 @@ export function getDiscountedPrice(price, discount) {
   const result = price - (price / 100) * discount;
   return result;
 }
+
+export function generateOTP() {
+  const digit1 = Math.ceil(Math.random() * 9);
+  const digit2 = Math.ceil(Math.random() * 9);
+  const digit3 = Math.ceil(Math.random() * 9);
+  const digit4 = Math.ceil(Math.random() * 9);
+  return `${digit1}${digit2}${digit3}${digit4}`;
+}

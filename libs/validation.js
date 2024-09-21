@@ -16,8 +16,8 @@ export function isValidEmail(email) {
 }
 
 export function isValidName(name) {
-  if (/^[.]|[.]$/.test(name)) {
-    return "Name cannot start or end with dot.";
+  if (/^[ .]|[ .]$/.test(name)) {
+    return "Name cannot start or end with dot and space.";
   }
 
   // if (/\s.\s/.test(name)) {
@@ -55,6 +55,10 @@ export function isValidPassword(password) {
 
   if (!pattern.test(password)) {
     return "Password must include at least 1 uppercase, 1 lowercase, 1 number, and 1 special character";
+  }
+
+  if (password.length > 128) {
+    return "Password must be under 128 characters.";
   }
 
   return "";
