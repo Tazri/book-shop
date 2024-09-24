@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+
 export function getPagination(lastPage, activePage, delta = 2) {
   const pagination = [];
 
@@ -38,4 +40,10 @@ export function generateOTP() {
   const digit3 = Math.ceil(Math.random() * 9);
   const digit4 = Math.ceil(Math.random() * 9);
   return `${digit1}${digit2}${digit3}${digit4}`;
+}
+
+export async function hashPassword(password, saltRound = 10) {
+  const salt = await bcrypt.genSalt(saltRound);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
 }

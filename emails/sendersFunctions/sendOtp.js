@@ -1,3 +1,4 @@
+import getOTPEmailTemplate from "../templates/templateFunc/getOTPEmailTemplate";
 import { transporter } from "../transporter";
 
 export async function sendOTP(email, otp) {
@@ -7,7 +8,7 @@ export async function sendOTP(email, otp) {
     to: email, // list of receivers
     subject: "OTP Varification", // Subject line
     text: "Hello world?", // plain text body
-    html: `<h1>Your OTP is ${otp}</h1>`, // html body
+    html: getOTPEmailTemplate(otp), // html body
   });
 
   return info.accepted;

@@ -6,18 +6,66 @@ import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import { isValidEmail, isValidName, isValidPassword } from "@/libs/validation";
 import SignUpField from "./SignUpField";
+import ButtonSpinner from "../shared/spinner/ButtonSpinner";
+import { signInApi } from "@/api/auth";
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setOTPEmailAction } from "@/redux/profileSlice/profileSlice";
+import { useRouter } from "next/navigation";
 
 function SignUpForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitted },
     handleSubmit,
     watch,
+    trigger,
   } = useForm();
+  const dispatch = useDispatch();
 
   const submitAction = async (formData) => {
-    const response = fetch();
+    try {
+      const bodyData = {
+        name: formData.name.trim(),
+        password: formData.password,
+        email: formData.email,
+      };
+
+      setLoading(true);
+      const response = await signInApi(bodyData);
+
+      const responseJson = await response.json();
+      setLoading(false);
+
+      if (response.status === 200) {
+        toast.dismiss();
+        toast.success(responseJson?.msg, { duration: 4000 });
+
+        const payload = {
+          lastTimeOtpSend: responseJson?.lastTimeOtpSend,
+          email: responseJson.email,
+        };
+
+        dispatch(setOTPEmailAction(payload));
+        router.push("/otp");
+      } else {
+        toast.dismiss();
+        toast.error(responseJson?.msg);
+      }
+    } catch (err) {
+      toast.dismiss();
+      toast.error("Something went wrong.");
+      console.log(err);
+    }
+  };
+
+  const triggerRecheckPassword = () => {
+    if (isSubmitted) {
+      trigger(["repassword"]);
+    }
   };
 
   return (
@@ -104,6 +152,8 @@ function SignUpForm() {
                   const check = isValidPassword(value);
                   return check ? check : true;
                 },
+                onChange: triggerRecheckPassword,
+                onBlur: triggerRecheckPassword,
               })}
               className={`border w-full py-1 px-2.5 bg-[#ededed] focus:outline-none duration-150 text-[#333333] rounded-sm text-xs s260:text-sm s410:text-base xl:text-lg ${
                 errors["password"]?.message
@@ -141,6 +191,8 @@ function SignUpForm() {
                     ? "Password does not match."
                     : true;
                 },
+                onChange: triggerRecheckPassword,
+                onBlur: triggerRecheckPassword,
               })}
               className={`border w-full py-1 px-2.5 bg-[#ededed] focus:outline-none duration-150 text-[#333333] rounded-sm text-xs s260:text-sm s410:text-base xl:text-lg ${
                 errors["repassword"]?.message
@@ -165,8 +217,11 @@ function SignUpForm() {
       </p>
 
       {/** sign in and forget password */}
-      <button className="bg-primary text-white py-1 text-xs s250:text-sm rounded-sm s340:text-base xl:text-lg duration-150">
-        Sign up
+      <button
+        className="bg-primary text-white py-1 text-xs s250:text-sm rounded-sm s340:text-base xl:text-lg duration-150 flex justify-center items-center disabled:opacity-90 disabled:cursor-not-allowed cursor-pointer"
+        disabled={loading}
+      >
+        {loading ? <ButtonSpinner /> : "Sign up"}
       </button>
     </form>
   );

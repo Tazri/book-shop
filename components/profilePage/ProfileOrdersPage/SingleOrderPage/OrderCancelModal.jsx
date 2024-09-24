@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function OrderCancelModal({ id }) {
   const inputRef = useRef();
@@ -75,8 +75,6 @@ function OrderCancelModal({ id }) {
           </label>
         </div>
       </div>
-
-      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 }

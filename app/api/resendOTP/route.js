@@ -23,7 +23,7 @@ export async function POST(req) {
     if (!validateResult.success) {
       const validationErrors = validateResult.error.errors;
       return NextResponse.json(
-        { msg: validationErrors[0].message },
+        { msg: validationErrors[0].message, go: "" },
         { status: 400 }
       );
     }
@@ -37,6 +37,7 @@ export async function POST(req) {
       return NextResponse.json(
         {
           msg: "User not found.",
+          go: "",
         },
         {
           status: 404,
@@ -47,7 +48,7 @@ export async function POST(req) {
     // if user exist and email is varified
     if (user.isVarified) {
       return NextResponse.json(
-        { msg: "User is already verified." },
+        { msg: "User is already verified.", goto: "/signin" },
         { status: 409 }
       );
     }
@@ -57,11 +58,13 @@ export async function POST(req) {
     const diffMinute = diffInMili / (1000 * 60);
     const otpResendTime = process.env.OTP_RESEND_TIME ?? 5;
 
-    console.log(diffMinute, otpResendTime);
     if (diffMinute < otpResendTime) {
       return NextResponse.json(
         {
           msg: `Please wait ${otpResendTime} minutes before requesting another OTP.`,
+          email: email,
+          otpResendTimGap: otpResendTime,
+          lastTimeOtpSend: lastTimeOtpSend,
         },
         { status: 429 }
       );
@@ -72,6 +75,7 @@ export async function POST(req) {
     const updateData = {
       lastTimeOtpSend: new Date(),
       otp,
+      otpTry: 0,
       isOTPValid: true,
     };
 

@@ -1,3 +1,4 @@
+import { hashPassword } from "@/libs/lib";
 import { isValidEmail, isValidName, isValidPassword } from "@/libs/validation";
 import mongoose from "mongoose";
 
@@ -72,8 +73,27 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: false,
     },
+    signInTry: {
+      type: Number,
+      default: 0,
+    },
+    lastSignInTry: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  const user = this;
+  const password = user.password;
+
+  const saltRound = parseInt(process.env.SALT_ROUND || 10);
+
+  const hashedPassword = await hashPassword(password, saltRound);
+  this.password = hashedPassword;
+  next();
+});
 
 export default userSchema;

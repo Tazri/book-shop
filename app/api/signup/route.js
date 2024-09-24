@@ -36,6 +36,15 @@ export async function POST(req) {
     const user = await UserModel.findOne({ email });
 
     if (user) {
+      // update user data
+      const partialChange = {
+        email: userData.email,
+        name: userData.name,
+      };
+      await UserModel.findOneAndUpdate({ email }, partialChange, {
+        runValidators: true,
+      });
+
       if (user.isVarified) {
         return NextResponse.json(
           {
@@ -75,7 +84,7 @@ export async function POST(req) {
       }
     }
 
-    // send new top
+    // send new otp
     const otp = generateOTP();
     await sendOTP(email, otp);
 
@@ -88,7 +97,11 @@ export async function POST(req) {
     await modelObj.save();
 
     return NextResponse.json(
-      { msg: "otp is sended.", email: email, lastTimeOtpSend: lastTimeOtpSend },
+      {
+        msg: "OTP is sended. Please verify your email address.",
+        email: email,
+        lastTimeOtpSend: userData.lastTimeOtpSend,
+      },
       { status: 200 }
     );
   } catch (err) {
