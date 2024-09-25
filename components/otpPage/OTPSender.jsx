@@ -30,6 +30,8 @@ function OTPSender() {
       const status = response.status;
 
       toast.dismiss();
+      console.log(responseJSON);
+      console.log(status);
       if (status === 404) {
         toast.error("User is not exist.");
       }
@@ -50,8 +52,8 @@ function OTPSender() {
         const lastTimeOtpSend = responseJSON?.lastTimeOtpSend;
         const lastTimeDate = new Date(lastTimeOtpSend);
         const diffInMili = Date.now() - lastTimeDate;
-        const fiveMinInMili = minToMili(5);
-        const leftMili = fiveMinInMili - diffInMili;
+        const otpResendTimGap = minToMili(responseJSON.otpResendTimGap);
+        const leftMili = otpResendTimGap - diffInMili;
         const [min, sec] = miliToMinSec(leftMili);
 
         const msgStr = `Too many request. Please try again after ${min}min ${sec}sec`;

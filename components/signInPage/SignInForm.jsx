@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignInInputField from "./SignInInputField";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import { isValidEmail, isValidPassword } from "@/libs/validation";
+import { useDispatch } from "react-redux";
+import { removeOTPEmailAction } from "@/redux/profileSlice/profileSlice";
 
 function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,10 +16,15 @@ function SignInForm() {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const dispatch = useDispatch();
 
   const submitAction = (formData) => {
     console.log(formData);
   };
+
+  useEffect(() => {
+    dispatch(removeOTPEmailAction());
+  }, [dispatch]);
 
   return (
     <form

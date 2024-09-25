@@ -50,11 +50,54 @@ export function isValidPassword(password) {
   if (password.length < 8) {
     return "Password must be at least 8 characters long";
   }
-  const pattern =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  if (!pattern.test(password)) {
-    return "Password must include at least 1 uppercase, 1 lowercase, 1 number, and 1 special character";
+  // check digits
+  const digits = "0123456789";
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const uppercase = lowercase.toUpperCase();
+  let isDigitFound = false;
+  let isLowerCaseFound = false;
+  let isUpperCaseFound = false;
+  let isSpecialCaseFound = false;
+
+  for (const char of password) {
+    if (digits.includes(char)) isDigitFound = true;
+
+    if (lowercase.includes(char)) isLowerCaseFound = true;
+
+    if (uppercase.includes(char)) isUpperCaseFound = true;
+
+    if (
+      !digits.includes(char) &&
+      !lowercase.includes(char) &&
+      !uppercase.includes(char)
+    ) {
+      isSpecialCaseFound = true;
+    }
+
+    if (
+      isDigitFound &&
+      isLowerCaseFound &&
+      isUpperCaseFound &&
+      isSpecialCaseFound
+    )
+      break;
+  }
+
+  if (!isLowerCaseFound) {
+    return "Password must include at least 1 lowercase alphabet.";
+  }
+
+  if (!isUpperCaseFound) {
+    return "Password must include at least 1 uppercase alphabet.";
+  }
+
+  if (!isDigitFound) {
+    return "Password must include at least 1 digit.";
+  }
+
+  if (!isSpecialCaseFound) {
+    return "Password must include at least 1 special case.";
   }
 
   if (password.length > 128) {

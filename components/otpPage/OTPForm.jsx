@@ -29,12 +29,13 @@ function OTPForm() {
   const [loadingVerify, setLoadingVerify] = useState(false);
   const [isOTPDisabled, setIsOTPDisabled] = useState(false);
   const [OTPMatched, setOTPMatched] = useState(false);
+  const [otpResendTimGap, setOtpResendTimGap] = useState(1);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       const lastTimeOtpDate = new Date(lastTimeOtpSend);
       const diffInMili = Date.now() - lastTimeOtpDate;
-      const leftTimeInMili = minToMili(5) - diffInMili;
+      const leftTimeInMili = minToMili(otpResendTimGap) - diffInMili;
 
       if (leftTimeInMili > 0) {
         const [min, sec] = miliToMinSec(leftTimeInMili);
@@ -51,7 +52,7 @@ function OTPForm() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [lastTimeOtpSend]);
+  }, [lastTimeOtpSend, otpResendTimGap]);
 
   async function handleResendOTP() {
     setResendLoading(true);
@@ -68,8 +69,9 @@ function OTPForm() {
           lastTimeOtpSend: responseJson.lastTimeOtpSend,
         };
 
-        setResendTimeString("5min");
+        setResendTimeString("1min");
         toast.success("OTP is sended.");
+        setOtpResendTimGap(responseJson?.otpResendTimGap);
         dispatch(setOTPEmailAction(payload));
       }
       // if too many request
@@ -177,9 +179,9 @@ function OTPForm() {
       else if (status === 200) {
         toast.success(responseJSON?.msg);
         setOTPMatched(true);
-        dispatch(removeOTPEmailAction());
         setTimeout(() => {
           router.push("/signin");
+          // dispatch(removeOTPEmailAction());
         }, 1500);
       }
 

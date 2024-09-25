@@ -1,7 +1,7 @@
 import connectDB from "@/database/connectDB";
 import { UserModel } from "@/database/models";
 import { sendOTP } from "@/emails/sendersFunctions/sendOtp";
-import { generateOTP } from "@/libs/lib";
+import { generateOTP, hashPassword } from "@/libs/lib";
 import userSignUpValidationSchema from "@/validation/userSignUpValidationSchema";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,9 +41,6 @@ export async function POST(req) {
         email: userData.email,
         name: userData.name,
       };
-      await UserModel.findOneAndUpdate({ email }, partialChange, {
-        runValidators: true,
-      });
 
       if (user.isVarified) {
         return NextResponse.json(
@@ -53,6 +50,10 @@ export async function POST(req) {
           { status: 409 }
         );
       } else if (user.isOTPValid) {
+        await UserModel.findOneAndUpdate({ email }, partialChange, {
+          runValidators: true,
+        });
+
         return NextResponse.json(
           {
             msg: "Email is not varified. Please veriy the email address. OTP is already sended.",
@@ -62,6 +63,10 @@ export async function POST(req) {
           { status: 200 }
         );
       } else {
+        // save partial change
+        await UserModel.findOneAndUpdate({ email }, partialChange, {
+          runValidators: true,
+        });
         // send otp
         const otp = generateOTP();
         await sendOTP(email, otp);
@@ -84,10 +89,15 @@ export async function POST(req) {
       }
     }
 
+    // create user
     // send new otp
     const otp = generateOTP();
     await sendOTP(email, otp);
 
+    //
+    const saltRound = parseInt(process.env.SALT_ROUND || 10);
+    const hashedPassword = await hashPassword(userData.password, saltRound);
+    userData.password = hashedPassword;
     // now set data
     userData.lastTimeOtpSend = new Date();
     userData.otp = otp;

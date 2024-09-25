@@ -56,7 +56,7 @@ export async function POST(req) {
     const lastTimeOtpSend = user.lastTimeOtpSend;
     const diffInMili = new Date() - lastTimeOtpSend;
     const diffMinute = diffInMili / (1000 * 60);
-    const otpResendTime = process.env.OTP_RESEND_TIME ?? 5;
+    const otpResendTime = parseInt(process.env.OTP_RESEND_TIME ?? 1);
 
     if (diffMinute < otpResendTime) {
       return NextResponse.json(
@@ -90,6 +90,7 @@ export async function POST(req) {
       {
         msg: "OTP is sended.",
         email,
+        otpResendTimGap: otpResendTime,
         lastTimeOtpSend: updateData.lastTimeOtpSend,
       },
       { status: 200 }

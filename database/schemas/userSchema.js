@@ -85,15 +85,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next) {
-  const user = this;
-  const password = user.password;
-
-  const saltRound = parseInt(process.env.SALT_ROUND || 10);
-
-  const hashedPassword = await hashPassword(password, saltRound);
-  this.password = hashedPassword;
-  next();
-});
-
 export default userSchema;

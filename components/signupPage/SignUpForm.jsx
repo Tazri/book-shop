@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { LuEye } from "react-icons/lu";
@@ -8,9 +8,12 @@ import { isValidEmail, isValidName, isValidPassword } from "@/libs/validation";
 import SignUpField from "./SignUpField";
 import ButtonSpinner from "../shared/spinner/ButtonSpinner";
 import { signInApi } from "@/api/auth";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setOTPEmailAction } from "@/redux/profileSlice/profileSlice";
+import {
+  removeOTPEmailAction,
+  setOTPEmailAction,
+} from "@/redux/profileSlice/profileSlice";
 import { useRouter } from "next/navigation";
 
 function SignUpForm() {
@@ -67,6 +70,10 @@ function SignUpForm() {
       trigger(["repassword"]);
     }
   };
+
+  useEffect(() => {
+    dispatch(removeOTPEmailAction());
+  }, [dispatch]);
 
   return (
     <form
