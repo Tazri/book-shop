@@ -45,7 +45,7 @@ export function isValidName(name) {
 
 export function isValidPassword(password) {
   if (password.length === 0) {
-    return "Please enter your new password.";
+    return "Please enter valid password.";
   }
   if (password.length < 8) {
     return "Password must be at least 8 characters long";
@@ -102,6 +102,30 @@ export function isValidPassword(password) {
 
   if (password.length > 128) {
     return "Password must be under 128 characters.";
+  }
+
+  return "";
+}
+
+export function isValidUsername(username) {
+  if (!username) {
+    return "Please provide username.";
+  }
+  const legalCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.";
+
+  for (const char of username) {
+    if (!legalCharacters.includes(char)) {
+      return "Username only contain alphabet, digits and dot(.).";
+    }
+  }
+
+  if (username.length < 5) {
+    return "Username must be at least 5 characters long.";
+  }
+
+  if (username.length > 20) {
+    return "Username must be less than or equal 20 characters.";
   }
 
   return "";

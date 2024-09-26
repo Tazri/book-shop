@@ -30,8 +30,6 @@ function OTPSender() {
       const status = response.status;
 
       toast.dismiss();
-      console.log(responseJSON);
-      console.log(status);
       if (status === 404) {
         toast.error("User is not exist.");
       }
@@ -66,6 +64,7 @@ function OTPSender() {
       }
       setLoading(false);
     } catch (err) {
+      console.log(err);
       toast.dismiss();
       toast.error("Something went wrong.");
     }

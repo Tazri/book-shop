@@ -4,7 +4,6 @@ import { sendOTP } from "@/emails/sendersFunctions/sendOtp";
 import { generateOTP } from "@/libs/lib";
 import userSignUpValidationSchema from "@/validation/userSignUpValidationSchema";
 import { NextResponse, NextRequest } from "next/server";
-import { isValid } from "zod";
 
 /**
  *

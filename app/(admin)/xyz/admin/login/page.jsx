@@ -1,39 +1,115 @@
+"use client";
+import AdminForgetModal, {
+  adminForgetModalId,
+} from "@/backendComponents/adminLogInPage/AdminForgetModal";
+import { isValidPassword, isValidUsername } from "@/libs/validation";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 function AdminLoginPage() {
+  const [showModal, setShowModal] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const formAction = (data) => {
+    console.log(data);
+  };
+
   const className =
-    "w-full border focus:outline-none p-2 text-[#444444] text-sm";
+    "w-full border focus:outline-none p-2 text-[#444444] text-sm focus:border-primary rounded-sm duration-150";
   return (
-    <div className="h-dvh flex justify-center items-center px-3 flex-col gap-2">
-      <Link className="text-center text-primary text-2xl mb-2" href="/">
-        PageTurner
-      </Link>
-      <form className="border w-full max-w-lg p-3 shadow-md flex gap-3 flex-col">
-        <InputField fieldName="User" id="admin-user">
-          <input id="admin-user" type="text" className={`${className}`} />
-        </InputField>
+    <>
+      <div className="h-dvh flex justify-center items-center px-3 flex-col gap-2 rounded-sm">
+        <Link className="text-center text-primary text-2xl mb-2" href="/">
+          PageTurner
+        </Link>
+        <form
+          onSubmit={handleSubmit(formAction)}
+          className="border w-full max-w-lg p-3 shadow-md flex gap-4 flex-col"
+        >
+          <h3 className="text-center text-xl text-[#444444] mb-1 uppercase">
+            Log In
+          </h3>
+          <InputField
+            fieldName="Username"
+            id="admin-user"
+            info="Enter your account username to access dashboard."
+            error={errors["username"]?.message}
+          >
+            <input
+              {...register("username", {
+                validate: (value) => {
+                  const check = isValidUsername(value);
 
-        <InputField fieldName="Password" id="admin-password">
-          <input id="admin-password" type="text" className={`${className}`} />
-        </InputField>
+                  return check ? check : true;
+                },
+              })}
+              id="admin-user"
+              type="text"
+              className={`${className} ${
+                errors["username"] ? "border-red-600" : "border-[#cccccc]"
+              }`}
+              placeholder="anms.anonymo"
+            />
+          </InputField>
 
-        <button className="bg-primary text-white rounded-sm py-1">
-          {" "}
-          Log In{" "}
-        </button>
-      </form>
-    </div>
+          <InputField
+            fieldName="Password"
+            id="admin-password"
+            info="Enter your account password."
+            error={errors["password"]?.message}
+          >
+            <input
+              {...register("password", {
+                validate: (value) => {
+                  const check = isValidPassword(value);
+                  return check ? check : true;
+                },
+              })}
+              id="admin-password"
+              type="text"
+              className={`${className} ${
+                errors["password"] ? "border-red-600" : "border-[#cccccc]"
+              }`}
+              placeholder="ans.anonymo@1234"
+            />
+          </InputField>
+
+          <button className="bg-primary text-white rounded-sm py-1">
+            {" "}
+            Log In{" "}
+          </button>
+
+          <button
+            onClick={() => setShowModal(true)}
+            type="button"
+            className="text-left w-fit text-sm text-[#444444] duration-150 hover:text-primary  cursor-pointer select-none"
+          >
+            Forget Password ?
+          </button>
+        </form>
+      </div>
+      {showModal ? (
+        <AdminForgetModal close={() => setShowModal(false)} />
+      ) : null}
+    </>
   );
 }
 
-function InputField({ fieldName, id, children }) {
+function InputField({ fieldName, id, children, info, error }) {
   return (
-    <div className="flex flex-col gap-0.5 text-sm">
+    <div className="flex flex-col text-sm">
       <label htmlFor={id} className="text-[#333333] uppercase">
         {fieldName}
+        <span className="text-primary">*</span>
       </label>
-      <div>{children}</div>
+      {info && <p className="text-[#555555] text-xs">{info}</p>}
+      <div className="mt-1">{children}</div>
+      {error && <p className="text-xs text-red-600 mt-0.5">{error}</p>}
     </div>
   );
 }

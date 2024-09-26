@@ -58,10 +58,11 @@ export async function POST(req) {
 
     const isUnder5Min = isDiffUnderMin(lastSignTime, 5);
 
-    if (signInTried > 6 && isUnder5Min) {
+    if (signInTried > 10 && isUnder5Min) {
       return NextResponse.json(
         {
           msg: "Too many sign in request from this email. Please try 5 minute later.",
+          lastSignInTry: user.lastSignInTry,
         },
         { status: 429 }
       );
@@ -70,12 +71,12 @@ export async function POST(req) {
     if (!isUnder5Min) {
       await UserModel.findOneAndUpdate(
         { email: userEmail },
-        { signInTry: 1, lastSignInTry: Date.now() }
+        { $set: { signInTry: 1, lastSignInTry: Date.now() } }
       );
     } else {
       await UserModel.findOneAndUpdate(
         { email: userEmail },
-        { signInTry: signInTried, lastSignInTry: Date.now() }
+        { $set: { signInTry: signInTried, lastSignInTry: Date.now() } }
       );
     }
 
@@ -88,20 +89,25 @@ export async function POST(req) {
       );
     }
 
+    if (user.suspended) {
+      return NextResponse.json({ msg: "User is suspended." }, { status: 403 });
+    }
+
     await UserModel.findOneAndUpdate(
       { email: userEmail },
-      { signInTry: 0, lastSignInTry: Date.now() }
+      { $set: { signInTry: 0, lastSignInTry: Date.now() } }
     );
 
     // create token
+    const expireTime = process.env.SIGN_IN_EXPIRE || "5d";
     const token = sign(
       {
         msg: "Please secure this token. not share with other.",
         email: userEmail,
       },
-      password,
+      user.secret,
       {
-        expiresIn: "5d",
+        expiresIn: expireTime,
       }
     );
 

@@ -4,3 +4,5 @@ img ratio : 62/89
 C6:43:D5:21:FD:50
 
     sharif
+
+default password "Adm!n123"

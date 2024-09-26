@@ -1,21 +1,27 @@
 import { hashPassword } from "@/libs/lib";
-import { isValidEmail, isValidName, isValidPassword } from "@/libs/validation";
+import {
+  isValidEmail,
+  isValidName,
+  isValidPassword,
+  isValidUsername,
+} from "@/libs/validation";
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+const adminUserSchema = new mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
       minLength: 5,
       maxLength: 16,
       trim: true,
+      unique: true,
       validate: {
         validator: function (value) {
-          const check = isValidName(value);
+          const check = isValidUsername(value);
           return check ? false : true;
         },
-        message: () => "Name is invalid.",
+        message: () => "Username is invalid.",
       },
     },
     email: {
@@ -35,52 +41,41 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      validate: {
+        validator: function (value) {
+          const check = isValidPassword(value);
+          return check ? false : true;
+        },
+        message: "Password is weak.",
+      },
     },
-    secret: {
+    role: {
       type: String,
       required: true,
+      unique: true,
+      enum: ["admin", "moderator"],
     },
-    avatarURL: {
-      type: String,
-      default: "",
-    },
-    isVarified: {
-      type: Boolean,
-      default: false,
-    },
-    otp: {
-      type: String,
-      minLength: 4,
-      maxLength: 4,
-      default: "0000",
-    },
-    isOTPValid: {
-      type: Boolean,
-      default: false,
-    },
-    otpTry: {
-      type: Number,
-      default: 0,
-    },
-    lastTimeOtpSend: {
+    lastTimeLogInTry: {
       type: Date,
+      default: Date.now(),
       required: true,
+    },
+    totalLogInTry: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     suspended: {
       type: Boolean,
       default: false,
-      required: false,
     },
-    signInTry: {
-      type: Number,
-      default: 0,
-    },
-    lastSignInTry: {
+    lastLogInTime: {
       type: Date,
       default: Date.now(),
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-export default userSchema;
+export default adminUserSchema;

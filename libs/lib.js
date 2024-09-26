@@ -47,3 +47,15 @@ export async function hashPassword(password, saltRound = 10) {
   const hashedPassword = await bcrypt.hash(password, salt);
   return hashedPassword;
 }
+
+export function generateJWTSecret(length = 100) {
+  const charset =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+  let secret = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    secret += charset[randomIndex];
+  }
+  return secret;
+}
