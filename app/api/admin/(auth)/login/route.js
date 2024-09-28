@@ -61,7 +61,9 @@ export async function POST(req) {
 
     if (isUnder5min) {
       await AdminUserModel.findOneAndUpdate(identity, {
-        totalLogInTry: totalLogInTried,
+        $set: {
+          totalLogInTry: totalLogInTried,
+        },
       });
 
       if (totalLogInTried > 6) {
@@ -75,8 +77,10 @@ export async function POST(req) {
       }
     } else {
       await AdminUserModel.findOneAndUpdate(identity, {
-        totalLogInTry: 1,
-        lastTimeLogInTry: Date.now(),
+        $set: {
+          totalLogInTry: 1,
+          lastTimeLogInTry: Date.now(),
+        },
       });
     }
 
@@ -95,14 +99,21 @@ export async function POST(req) {
 
     // all matched
     // generate token
-    const userHashedPassword = user.password;
+    await AdminUserModel.findOneAndUpdate(identity, {
+      $set: {
+        totalLogInTry: 0,
+        lastTimeLogInTry: Date.now(),
+      },
+    });
+
     const expireTime = process.env.SYSTEM_LOG_IN_EXPIRE || "1d";
     const token = sign(
       {
+        brand: "pageTurner",
         msg: "Please secure this token. not share with other.",
         username: user.username,
       },
-      userHashedPassword,
+      user.secret,
       {
         expiresIn: expireTime,
       }
@@ -111,7 +122,7 @@ export async function POST(req) {
     const response = NextResponse.json(
       {
         msg: "sign in successfull",
-        token,
+        adminToken: token,
       },
       { status: 200 }
     );

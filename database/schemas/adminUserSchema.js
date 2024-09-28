@@ -1,4 +1,4 @@
-import { hashPassword } from "@/libs/lib";
+import { generateJWTSecret, hashPassword } from "@/libs/lib";
 import {
   isValidEmail,
   isValidName,
@@ -69,7 +69,15 @@ const adminUserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    secret: {
+      type: String,
+    },
     lastLogInTime: {
+      type: Date,
+      default: Date.now(),
+      required: true,
+    },
+    lastTimeResetLinkSend: {
       type: Date,
       default: Date.now(),
       required: true,

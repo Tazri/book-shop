@@ -44,3 +44,18 @@ export function miliToMinSec(miliSec) {
   const leftSec = sec % 60;
   return [min, leftSec];
 }
+
+export function minSecStringFromSec(sec) {
+  const min = Math.floor(sec / 60);
+  const leftSec = sec % 60;
+
+  let str = "";
+
+  if (min) {
+    str += `${min}min`;
+  }
+  if (leftSec) {
+    str = str ? str + ` ${leftSec}sec` : `${leftSec}sec`;
+  }
+  return str;
+}

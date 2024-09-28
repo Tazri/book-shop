@@ -1,10 +1,11 @@
-export default function getOTPEmailTemplate(otp) {
+export default function getOTPEmailTemplate(otp, name) {
   return `<div
   style="
     font-family: Helvetica, Arial, sans-serif;
     min-width: 1000px;
     overflow: auto;
     line-height: 2;
+    color: #333333;
   "
 >
   <div style="margin: 50px auto; width: 70%; padding: 20px 0">
@@ -20,7 +21,9 @@ export default function getOTPEmailTemplate(otp) {
         >PageTurner</a
       >
     </div>
-    <p style="font-size: 1.1em">Hi,</p>
+    <p style="font-size: 1.1em">
+      Hi, <span style="font-weight: bold">${name}</span>
+    </p>
     <p>
       Thank you for choosing <b>PageTurner</b>. Use the following OTP to
       complete your Sign Up procedures. If you try more then <b>5 times</b> then
@@ -57,5 +60,6 @@ export default function getOTPEmailTemplate(otp) {
     </div>
   </div>
 </div>
+
 `;
 }

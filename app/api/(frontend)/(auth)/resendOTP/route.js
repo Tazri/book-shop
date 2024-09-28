@@ -70,7 +70,7 @@ export async function POST(req) {
     }
 
     const otp = generateOTP();
-    await sendOTP(email, otp);
+    await sendOTP(email, otp, user.name);
     const updateData = {
       lastTimeOtpSend: new Date(),
       otp,

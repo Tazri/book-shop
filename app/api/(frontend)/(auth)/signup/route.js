@@ -77,7 +77,7 @@ export async function POST(req) {
         );
         // send otp
         const otp = generateOTP();
-        await sendOTP(email, otp);
+        await sendOTP(email, otp, partialChange.name);
 
         // update otp information
         const updateUserData = {};
@@ -100,7 +100,7 @@ export async function POST(req) {
     // create user
     // send new otp
     const otp = generateOTP();
-    await sendOTP(email, otp);
+    await sendOTP(email, otp, userData.name);
 
     //
     const saltRound = parseInt(process.env.SALT_ROUND || 10);

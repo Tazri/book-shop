@@ -3,17 +3,31 @@ import AdminForgetModal, {
   adminForgetModalId,
 } from "@/backendComponents/adminLogInPage/AdminForgetModal";
 import { isValidPassword, isValidUsername } from "@/libs/validation";
+import { removeLastTimeResetLinkSendAction } from "@/redux/adminAuth/adminAuthSlice";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 function AdminLoginPage() {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  // unset reset link time
+  useEffect(() => {
+    dispatch(removeLastTimeResetLinkSendAction());
+    return () => dispatch(removeLastTimeResetLinkSendAction());
+  });
+
+  const handleClose = () => {
+    setShowModal(!showModal);
+    dispatch(removeLastTimeResetLinkSendAction());
+  };
 
   const formAction = (data) => {
     console.log(data);
@@ -93,9 +107,7 @@ function AdminLoginPage() {
           </button>
         </form>
       </div>
-      {showModal ? (
-        <AdminForgetModal close={() => setShowModal(false)} />
-      ) : null}
+      {showModal ? <AdminForgetModal close={handleClose} /> : null}
     </>
   );
 }
