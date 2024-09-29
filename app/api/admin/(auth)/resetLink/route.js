@@ -66,7 +66,7 @@ export async function POST(req) {
       },
       user.secret,
       {
-        expiresIn: "5m",
+        expiresIn: process.env.RESETLINK_EXPIRE_TIME || "5m",
       }
     );
 
