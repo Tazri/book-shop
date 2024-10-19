@@ -1,12 +1,18 @@
 "use client";
+import { adminResetPasswordAPI } from "@/api/backend/backendAuth";
+import ButtonSpinner from "@/components/shared/spinner/ButtonSpinner";
 import { isValidPassword } from "@/libs/validation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FiEyeOff } from "react-icons/fi";
 import { FiEye } from "react-icons/fi";
 
 function ResetPasswordForm({ token }) {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -15,8 +21,39 @@ function ResetPasswordForm({ token }) {
     trigger,
   } = useForm();
 
-  const formAction = (formData) => {
-    console.log(formData);
+  const formAction = async (formData) => {
+    const payload = {
+      token,
+      password: formData.password,
+    };
+
+    setLoading(true);
+    try {
+      const response = await adminResetPasswordAPI(payload);
+      const json = await response.json();
+      const status = response.status;
+
+      toast.dismiss();
+
+      // start
+      if (status === 200) {
+        toast.success(json?.msg);
+        router.push("/xyz/admin/login");
+      }
+      // if token is not valid or password is not valid
+      else if (status === 400) {
+        toast.error("Link is expired. Please try generate another link.");
+        router.push("/xyz/admin/login");
+      } else {
+        toast.error("Something went wrong.");
+      }
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast.dismiss();
+      toast.error("Something went wrong.");
+      console.log(err);
+    }
   };
 
   const inputClassName =
@@ -96,8 +133,11 @@ function ResetPasswordForm({ token }) {
         </div>
       </InputField>
 
-      <button className="bg-primary text-white px-3 py-1 rounded-sm">
-        Reset Password
+      <button
+        disabled={loading}
+        className="bg-primary text-white px-3 py-1 rounded-sm text-center flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-90"
+      >
+        {loading ? <ButtonSpinner /> : "Reset Password"}
       </button>
     </form>
   );

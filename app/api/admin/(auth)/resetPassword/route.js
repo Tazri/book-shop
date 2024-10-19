@@ -27,7 +27,6 @@ export async function POST(req) {
     // now reset the password
     const payload = decode(givenData.token);
     const identity = { username: payload.username };
-    const user = await AdminUserModel.findOne({ username: payload.username });
 
     const newSecret = generateJWTSecret();
     const saltRound = parseInt(process.env.SALT_ROUND || 10);
@@ -42,7 +41,7 @@ export async function POST(req) {
 
     return NextResponse.json(
       {
-        msg: "Successfully password changes",
+        msg: "Successfully password changed",
       },
       {
         status: 200,

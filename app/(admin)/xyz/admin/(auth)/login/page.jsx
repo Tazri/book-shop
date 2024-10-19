@@ -1,22 +1,29 @@
 "use client";
-import AdminForgetModal, {
-  adminForgetModalId,
-} from "@/backendComponents/adminLogInPage/AdminForgetModal";
+import AdminForgetModal from "@/backendComponents/adminLogInPage/AdminForgetModal";
 import { isValidPassword, isValidUsername } from "@/libs/validation";
 import { removeLastTimeResetLinkSendAction } from "@/redux/adminAuth/adminAuthSlice";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { LuEye } from "react-icons/lu";
+import { FiEyeOff } from "react-icons/fi";
+import toast from "react-hot-toast";
+import ButtonSpinner from "@/components/shared/spinner/ButtonSpinner";
+import { adminLoginApi } from "@/api/backend/backendAuth";
+import { useRouter } from "next/navigation";
 
 function AdminLoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
 
   // unset reset link time
   useEffect(() => {
@@ -29,8 +36,41 @@ function AdminLoginPage() {
     dispatch(removeLastTimeResetLinkSendAction());
   };
 
-  const formAction = (data) => {
-    console.log(data);
+  const formAction = async (data) => {
+    toast.dismiss();
+    setLoading(true);
+
+    try {
+      // api call
+      const response = await adminLoginApi(data);
+      const json = await response.json();
+      const status = response.status;
+
+      // if all ok
+      if (status === 200) {
+        toast.success("Successfully login.");
+        router.push("/xyz/admin/");
+      }
+
+      // if user or password incorrect
+      else if (status === 401) {
+        toast.error(json.msg);
+      }
+
+      // if too many request
+      else if (status === 429) {
+        toast.error(json.msg);
+      }
+      // others
+      else {
+        toast.error("Server side error.");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const className =
@@ -77,25 +117,37 @@ function AdminLoginPage() {
             info="Enter your account password."
             error={errors["password"]?.message}
           >
-            <input
-              {...register("password", {
-                validate: (value) => {
-                  const check = isValidPassword(value);
-                  return check ? check : true;
-                },
-              })}
-              id="admin-password"
-              type="text"
-              className={`${className} ${
-                errors["password"] ? "border-red-600" : "border-[#cccccc]"
-              }`}
-              placeholder="ans.anonymo@1234"
-            />
+            <div className="relative">
+              <button
+                onClick={() => setShowPassword(!showPassword)}
+                type="button"
+                className=" absolute right-2 top-1/2 -translate-y-1/2 text-xl text-[#444444]"
+              >
+                {showPassword ? <LuEye /> : <FiEyeOff />}
+              </button>
+
+              <input
+                {...register("password", {
+                  validate: (value) => {
+                    const check = isValidPassword(value);
+                    return check ? check : true;
+                  },
+                })}
+                id="admin-password"
+                type={showPassword ? "text" : "password"}
+                className={`${className} ${
+                  errors["password"] ? "border-red-600" : "border-[#cccccc]"
+                }`}
+                placeholder="ans.anonymo@1234"
+              />
+            </div>
           </InputField>
 
-          <button className="bg-primary text-white rounded-sm py-1">
-            {" "}
-            Log In{" "}
+          <button
+            disabled={loading}
+            className="bg-primary text-white rounded-sm py-1 flex text-center items-center justify-center disabled:opacity-90 disabled:cursor-not-allowed"
+          >
+            {loading ? <ButtonSpinner /> : "Log In"}
           </button>
 
           <button

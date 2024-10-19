@@ -56,7 +56,13 @@ export async function POST(req) {
     }
 
     // is log in with in five minute ?
-    const isUnder5min = isDiffUnderMin(user.lastTimeLogInTry, 5);
+    const SYSTEM_LOG_IN_TRY_GAP = parseInt(
+      process.env.SYSTEM_LOG_IN_TRY_GAP || 5
+    );
+    const isUnder5min = isDiffUnderMin(
+      user.lastTimeLogInTry,
+      SYSTEM_LOG_IN_TRY_GAP
+    );
     let totalLogInTried = user.totalLogInTry + 1;
 
     if (isUnder5min) {
@@ -71,6 +77,7 @@ export async function POST(req) {
           {
             msg: "Too many request. Please try 5 minute later.",
             lastTimeLogInTry: user.lastTimeLogInTry,
+            SYSTEM_LOG_IN_TRY_GAP,
           },
           { status: 429 }
         );
