@@ -1,3 +1,6 @@
+import authorValidationSchema from "@/validation/authorValidationSchema";
+import categoryValidationSchema from "@/validation/categoryValidationSchema";
+import otherPropertyKeyValidationSchema from "@/validation/otherPropertyKeyValidationSchema";
 export function isValidPhoneNumber(number) {
   const pattern = /^(\+?88)?01\d{9}$/;
   if (number.match(pattern)) {
@@ -129,4 +132,108 @@ export function isValidUsername(username) {
   }
 
   return "";
+}
+
+export function isValidBase64Image(base64String) {
+  // Check if input is a string
+  if (typeof base64String !== "string") {
+    return {
+      valid: false,
+      reason: "Img is not a base64 string.",
+    };
+  }
+
+  // Check if the base64 string starts with the correct image MIME types
+  const validMimeTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+  // Extract the MIME type from the Base64 string
+  const mimeType = base64String.match(/^data:(.*);base64,/);
+  if (!mimeType || !validMimeTypes.includes(mimeType[1])) {
+    return {
+      valid: false,
+      reason: "Invalid image type. Allowed types: jpg, jpeg, png, webp.",
+    };
+  }
+
+  // Calculate the Base64 string size in bytes
+  const base64Length = base64String.split(",")[1].length;
+  const paddingChars = (base64String.match(/=+$/) || []).length;
+  const byteSize = base64Length * 0.75 - paddingChars;
+
+  // Check if the size is under 1 MB (1 MB = 1048576 bytes)
+  const maxSizeInBytes = 1048576; // 1 MB
+  if (byteSize > maxSizeInBytes) {
+    return { valid: false, reason: "Image is larger than 1 MB." };
+  }
+
+  // If both checks pass, return true
+  return { valid: true, reason: "Valid image and under 1 MB." };
+}
+
+export function isValidUrl(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export function isValidCategoryName(name) {
+  const categoryNameSchema = categoryValidationSchema.shape.name;
+  const validationResult = categoryNameSchema.safeParse(name);
+
+  if (validationResult.success) {
+    return true;
+  }
+  const errors = validationResult.error.errors;
+  const firstErrorMessage = errors[0].message;
+  return firstErrorMessage;
+}
+
+export function isValidCategoryDescription(description) {
+  const categoryDescriptonSchema = categoryValidationSchema.shape.description;
+  const validationResult = categoryDescriptonSchema.safeParse(description);
+
+  if (validationResult.success) {
+    return true;
+  }
+  const errors = validationResult.error.errors;
+  const firstErrorMessage = errors[0].message;
+  return firstErrorMessage;
+}
+
+export function isValidAuthorName(name) {
+  const authorNameSchema = authorValidationSchema.shape.name;
+  const validationResult = authorNameSchema.safeParse(name);
+
+  if (validationResult.success) {
+    return true;
+  }
+  const errors = validationResult.error.errors;
+  const firstErrorMessage = errors[0].message;
+  return firstErrorMessage;
+}
+
+export function isValidAuthorDescription(description) {
+  const authorNameSchema = authorValidationSchema.shape.description;
+  const validationResult = authorNameSchema.safeParse(description);
+
+  if (validationResult.success) {
+    return true;
+  }
+  const errors = validationResult.error.errors;
+  const firstErrorMessage = errors[0].message;
+  return firstErrorMessage;
+}
+
+export function isValidPropertyKeyName(value, isEmptyAllow) {
+  const validationResult = otherPropertyKeyValidationSchema.safeParse(value);
+  if (validationResult.success) {
+    return true;
+  }
+
+  const errors = validationResult.error.errors;
+  const firstErrorMessage = errors[0].message;
+  return firstErrorMessage;
 }

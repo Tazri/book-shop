@@ -59,3 +59,27 @@ export function minSecStringFromSec(sec) {
   }
   return str;
 }
+
+export function getDateDDMonthYYYY(dateISO) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const date = new Date(dateISO);
+
+  const day = String(date.getDate()).padStart(2, "0"); // Ensures day is 2 digits
+  const month = months[date.getMonth()]; // Get 3-char month name
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
+}

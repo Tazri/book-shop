@@ -9,13 +9,22 @@ const AdminInputField = forwardRef(function AdminInputFieldBase(
     type = "text",
     placeholder,
     id,
+    maxWidth = "50rem",
     ...inputRest
   },
   ref
 ) {
   return (
-    <div className="flex flex-col">
-      <label className="text text-[#222222] select-none" htmlFor={id}>
+    <div
+      className="flex flex-col"
+      style={{
+        maxWidth: maxWidth,
+      }}
+    >
+      <label
+        className="text-sm s380:text-base text-[#222222] select-none duration-150"
+        htmlFor={id}
+      >
         {label}
         {required ? <span className="text-primary">*</span> : ""}
       </label>
@@ -28,11 +37,11 @@ const AdminInputField = forwardRef(function AdminInputFieldBase(
         ref={ref}
         type={type}
         placeholder={placeholder}
-        className={`border duration-150 px-2 py-1.5 focus:outline-none focus:border-primary text-[#333333] w-full mt-1 ${
+        className={`border duration-150 px-2 py-1.5 focus:outline-none focus:border-primary text-[#333333] w-full mt-1 text-sm s380:text-base ${
           error ? "border-red-600" : "border-[#cccccc]"
         }`}
       />
-      {error ? <p className="text-xs text-red-600">{error}</p> : null}
+      {error ? <p className="text-xs text-red-600">{error?.message}</p> : null}
     </div>
   );
 });

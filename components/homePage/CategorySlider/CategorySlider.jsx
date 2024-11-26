@@ -1,10 +1,9 @@
-"use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
 import Link from "next/link";
 import defaultImage from "@/assets/category/fantasy.webp";
-import Image from "next/image";
+import { Suspense } from "react";
+import LoadHomePageCategory from "./LoadHomePageCategory";
+import HomepageCategorySliderLoading from "./HomepageCategorySliderLoading";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 const defaultAllCategory = [
   {
@@ -35,66 +34,18 @@ function CategorySlider({ allCategory = defaultAllCategory }) {
           See All
         </Link>
       </div>
-      <Swiper
-        modules={[Autoplay]}
-        autoplay={{
-          delay: 3000,
-        }}
-        slidesPerView={2}
-        loop={true}
-        spaceBetween={10}
-        breakpoints={{
-          1400: {
-            slidesPerView: 7,
-          },
-          1024: {
-            spaceBetween: 20,
-            slidesPerView: 6,
-          },
-          768: {
-            slidesPerView: 5,
-          },
-          650: {
-            slidesPerView: 4,
-          },
-          500: {
-            slidesPerView: 3,
-          },
-        }}
+
+      <ErrorBoundary
+        fallback={
+          <h3 className="my-3 text-base s320:text-lg  s410:text-xl text-red-400 uppercase duration-150 select-none text-center">
+            Failed to load.
+          </h3>
+        }
       >
-        {displayAllCategory?.map((category, index) => {
-          return (
-            <SwiperSlide key={`${category?.id}${index}`}>
-              <CategoryCard category={category} />
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-    </div>
-  );
-}
-
-function CategoryCard({ category = defaultAllCategory[0] }) {
-  return (
-    <div className="flex flex-col justify-center items-center text-center gap-1.5">
-      <div className="w-16 s320:max-w-24 aspect-square s320:w-full flex justify-center items-center bg-[#f5f6f8] duration-200 rounded-full border border-primary">
-        <Image
-          width={500}
-          height={500}
-          src={category?.img ? category.img : defaultImage}
-          alt={category?.name}
-          className="h-[95%] w-[95%] object-cover rounded-full"
-        />
-      </div>
-
-      <div>
-        <h3 className="text-primary s280:text-base s250:text-xs text-xs duration-200 font-semibold leading-5 capitalize">
-          {category?.name}
-        </h3>
-        <p className="text-[#555555] s320:text-base s280:text-sm s250:text-xs text-[0.6rem] whitespace-nowrap">
-          {category?.totalBooks} Books
-        </p>
-      </div>
+        <Suspense fallback={<HomepageCategorySliderLoading />}>
+          <LoadHomePageCategory />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

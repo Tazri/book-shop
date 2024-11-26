@@ -1,5 +1,11 @@
 function GlobalNotFoundPage() {
-  return <div>Global Not Found</div>;
+  return (
+    <html>
+      <body>
+        <div>Global Not Found</div>
+      </body>
+    </html>
+  );
 }
 
 export default GlobalNotFoundPage;

@@ -42,7 +42,7 @@ function BreadCrumb({ path = "/books/book/id", lastPathWord }) {
   }
 
   return (
-    <div className="container mx-auto my-1 px-1 text-sm text-[#666666] flex items-center gap-[0.1rem]">
+    <div className="container mx-auto my-1 mb-3 px-1 text-xs  s380:text-sm text-[#666666] flex items-center duration-150">
       <Link href="/" className="cursor-pointer hover:text-primary">
         <IoMdHome />
       </Link>

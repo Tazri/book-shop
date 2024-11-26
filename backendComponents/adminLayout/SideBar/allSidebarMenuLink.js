@@ -1,5 +1,6 @@
 import { BiCategory } from "react-icons/bi";
 import { FaUserPen } from "react-icons/fa6";
+import { CiPen } from "react-icons/ci";
 
 const allSidebarMenuLink = [
   {
@@ -22,11 +23,25 @@ const allSidebarMenuLink = [
     allLinks: [
       {
         name: "All Authors",
-        link: "#",
+        link: "/xyz/admin/authors",
       },
       {
         name: "Add Author",
-        link: "#",
+        link: "/xyz/admin/addAuthor",
+      },
+    ],
+  },
+  {
+    name: "Publishers",
+    Icon: CiPen,
+    allLinks: [
+      {
+        name: "All Publishers",
+        link: "/xyz/admin/allPublishers",
+      },
+      {
+        name: "Add Publishers",
+        link: "/xyz/admin/addPublisher",
       },
     ],
   },

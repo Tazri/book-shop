@@ -76,3 +76,22 @@
 *::-webkit-scrollbar-thumb:active {
   background-color: #a8a3a3;
 }
+
+.animate-loading-bg {
+  animation-name: animateLoadingBgKeyframe;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes animateLoadingBgKeyframe {
+  0% {
+    background-color: #dddddd;
+  }
+  50% {
+    background-color: #aaaaaa;
+  }
+  100% {
+    background-color: #dddddd;
+  }
+}

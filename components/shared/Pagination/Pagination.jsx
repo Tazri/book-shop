@@ -1,83 +1,101 @@
-import { getPagination } from "@/libs/lib";
+import { getNextAndPrevPages } from "@/libs/lib";
 import Link from "next/link";
-
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
-import { URLSearchParams as NodeURLSearchParams } from "url";
 
-function Pagination({ path, searchParams, lastPage = 34 }) {
-  const queryObj = new NodeURLSearchParams(searchParams);
-  const pageQuery = queryObj.get("page");
-  let activePage = pageQuery ? parseInt(pageQuery) : 1;
-
-  if (isNaN(activePage)) {
-    activePage = 1;
+function Pagination({ pagination }) {
+  if (!pagination) {
+    return (
+      <div className="text-gray-700 text-center uppercase">
+        There is no pagination
+      </div>
+    );
   }
 
-  const pageArray = getPagination(lastPage, activePage);
-
-  // make prevPageQueryString
-  queryObj.set("page", activePage - 1);
-  const prevPageQueryString = queryObj.toString();
-
-  // make nextPageQueryString
-  queryObj.set("page", activePage + 1);
-  const nextPageQueryString = queryObj.toString();
+  const { nextPage, prevPage } = getNextAndPrevPages(
+    pagination?.totalPages,
+    pagination?.activePage
+  );
 
   return (
-    <div className="w-fit mx-auto my-3 flex flex-wrap">
+    <div className="w-full mx-auto my-3 flex flex-wrap justify-center">
       <PageButton
-        href={path + "?" + prevPageQueryString}
-        page={<GrPrevious />}
-        disabled={activePage <= 1}
-      />
+        page={prevPage}
+        perPage={pagination?.perPage || 10}
+        searchText={pagination?.searchText || ""}
+        active={prevPage == pagination?.activePage}
+      >
+        <GrPrevious />
+      </PageButton>
 
-      {pageArray?.map((page) => {
-        queryObj.set("page", page);
-        const queryString = queryObj.toString();
-
-        return (
-          <PageButton
-            disabled={activePage === page || page === "..."}
-            href={"?" + queryString}
-            active={activePage === page}
-            page={page}
-            key={page}
-          />
-        );
+      {pagination?.links?.map((link, index) => {
+        if (link?.page) {
+          return (
+            <PageButton
+              key={index}
+              perPage={pagination?.perPage}
+              page={link.page}
+              searchText={pagination?.searchText}
+              active={link.page === pagination?.activePage}
+            >
+              {link?.page}
+            </PageButton>
+          );
+        }
+        return <PageButton disabled>...</PageButton>;
       })}
 
       <PageButton
-        disabled={activePage === lastPage}
-        href={path + "?" + nextPageQueryString}
-        page={<GrNext />}
-      />
+        page={nextPage}
+        perPage={pagination?.perPage || 10}
+        searchText={pagination?.searchText || ""}
+        active={nextPage == pagination?.activePage}
+      >
+        <GrNext />
+      </PageButton>
     </div>
   );
 }
 
-function PageButton({ page = 1, active, disabled, href = "#" }) {
+function PageButton({
+  page = 1,
+  active,
+  disabled,
+  perPage = 10,
+  searchText = "",
+  children,
+}) {
+  const params = new URLSearchParams();
+  params.set("page", page);
+  params.set("perPage", perPage);
+
+  if (searchText) {
+    params.set("search", searchText);
+  }
+
+  const queryStr = "?" + params.toString();
+
   if (disabled) {
     return (
       <button
         disabled
-        className={`px-1 s240:px-2 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s380:text-xs s450:text-sm s580:text-base flex items-center justify-center disabled:cursor-not-allowed ${
+        className={`px-1.5 s280:px-2 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s380:text-xs s450:text-sm s580:text-base flex items-center justify-center  ${
           active ? "text-primary" : "text-[#444444]"
         }`}
       >
-        {page}
+        {children}
       </button>
     );
   }
   return (
     <Link
       scroll={true}
-      href={href}
-      className={`px-0.5 s200:px-1 s320:px-2 s580:px-3 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s350:text-xs s450:text-sm s580:text-base flex items-center justify-center ${
-        active ? "text-primary" : "text-[#444444]"
-      } disabled:cursor-not-allowed disabled:opacity-75 `}
+      href={queryStr}
+      className={`px-1.5 s280:px-2 s320:px-2 s580:px-3 py-1 border duration-200 text-[0.4rem] s320:text-[0.5rem] s340:text-[0.6rem]  s350:text-xs s450:text-sm s580:text-base flex items-center justify-center ${
+        active ? "text-primary pointer-events-none" : "text-[#444444]"
+      } disabled:opacity-75 `}
     >
-      {page}
+      {children}
     </Link>
   );
 }
