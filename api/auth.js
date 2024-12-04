@@ -1,39 +1,51 @@
 export async function signInApi(payload) {
-  const url = process.env.NEXT_PUBLIC_BASE_URL + "/api/signup";
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/api/signup";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-  return response;
+    return response;
+  } catch (err) {
+    return null;
+  }
 }
 
 export async function resendOTPApi(email) {
-  const url = process.env.NEXT_PUBLIC_BASE_URL + "/api/resendOTP";
+  try {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/api/resendOTP";
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email: email }),
-  });
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    });
 
-  return response;
+    return response;
+  } catch (err) {
+    return null;
+  }
 }
 
 export async function verifyEmailApi(payload) {
-  const url = process.env.NEXT_PUBLIC_BASE_URL + "/api/verifyEmail";
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  try {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/api/verifyEmail";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-  return response;
+    return response;
+  } catch (err) {
+    return null;
+  }
 }
