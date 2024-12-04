@@ -1,0 +1,31 @@
+.singleBookDetails {
+  @apply my-3;
+}
+.singleBookDetails h3 {
+  @apply text-xs s240:text-sm s260:text-base s320:text-lg s500:text-xl my-3 text-[#222222] duration-150;
+}
+
+.authorLabel,
+.specLabel {
+  @apply cursor-pointer px-3 py-2 inline-block text-[#222222] -mb-[1px] duration-150 border border-white border-b-[#cccccc] rounded-t-md text-[0.65rem] s260:text-xs s410:text-sm s600:text-base;
+}
+
+.authorInput,
+.specInput {
+  @apply hidden;
+}
+
+.authorInput:checked ~ .authorLabel,
+.specInput:checked ~ .specLabel {
+  @apply text-primary border-t-primary border-b-white border-x-[#cccccc];
+}
+
+.authorTab,
+.specTab {
+  @apply hidden p-1;
+}
+
+.authorInput:checked ~ .authorTab,
+.specInput:checked ~ .specTab {
+  @apply block;
+}

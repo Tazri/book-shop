@@ -1,0 +1,68 @@
+.SingleBookDisplay {
+  @apply flex-grow;
+}
+
+.book {
+  @apply flex gap-3 flex-col md:flex-row;
+}
+
+.book div:first-child {
+  @apply w-full duration-200 max-w-36 s200:max-w-40 s220:max-w-44 s320:max-w-48 s500:max-w-52 md:max-w-56;
+}
+
+.bookDetails {
+  @apply w-full md:pr-1 flex flex-col gap-3;
+}
+
+.bookDetails h2 {
+  @apply text-base s320:text-lg s450:text-xl text-[#222222] duration-150;
+}
+
+.bookShortDetails {
+  @apply text-[#555555] text-xs s240:text-sm s410:text-base duration-150;
+}
+
+.bookShortDetails span {
+  @apply text-primary hover:underline cursor-pointer;
+}
+
+.price {
+  @apply text-xs s240:text-sm s410:text-base s450:text-lg duration-150 text-primary;
+}
+
+.price span {
+  @apply text-[#555555] line-through;
+}
+
+.description {
+  @apply text-[0.6rem] s200:text-xs s240:text-sm s410:text-base;
+}
+
+.description input {
+  @apply hidden;
+}
+
+.description p {
+  @apply line-clamp-4 text-[#555555];
+}
+
+.description input:checked ~ p {
+  @apply line-clamp-none;
+}
+
+.showMore,
+.showLess {
+  @apply cursor-pointer text-primary hover:underline underline-offset-2 select-none;
+}
+
+.showLess {
+  @apply hidden;
+}
+
+.description input:checked ~ .showMore {
+  @apply hidden;
+}
+
+.description input:checked ~ .showLess {
+  @apply block;
+}

@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* .container {
+    @apply max-w-[1080px] lg:max-w-[1150px] s1400:max-w-[1280px];
+  } */
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+/** scroll bar **/
+.filter-scroll::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+.filter-scroll::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+.filter-scroll::-webkit-scrollbar-track:hover {
+  background-color: #ffffff;
+}
+
+.filter-scroll::-webkit-scrollbar-track:active {
+  background-color: #ffffff;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #bab5b4;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #b2adac;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb:active {
+  background-color: #a8a3a3;
+}
+
+/* default scroll bar */
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #ffffff;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: #bab5b4;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #b2adac;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #a8a3a3;
+}
+
+.animate-loading-bg {
+  animation-name: animateLoadingBgKeyframe;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes animateLoadingBgKeyframe {
+  0% {
+    background-color: #dddddd;
+  }
+  50% {
+    background-color: #aaaaaa;
+  }
+  100% {
+    background-color: #dddddd;
+  }
+}
