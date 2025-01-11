@@ -30,17 +30,26 @@ function AdminSingleCategoryDelete({ category }) {
     toast.dismiss();
     try {
       const response = await deleteCategoryApi(category?._id);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status !== 200) {
-        toast.error(json.msg || "Something went wrong.");
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        await revlidatePathApi("/xyz/admin/allCategory");
-        router.push("/xyz/admin/allCategory");
-        toast.success("Category deleted successfully.");
-        setLoading(false);
-        setShowModal(false);
+        const status = response.status;
+        const json = await response.json();
+
+        if (status !== 200) {
+          toast.error(json.msg || "Something went wrong.");
+        } else {
+          try {
+            await revlidatePathApi("/xyz/admin/allCategory");
+          } catch (err) {
+            console.log("Failed to refresh");
+          }
+          router.push("/xyz/admin/allCategory");
+          toast.success("Category deleted successfully.");
+          setLoading(false);
+          setShowModal(false);
+        }
       }
     } catch (err) {
       console.log(err.message);
@@ -75,12 +84,21 @@ function AdminSingleCategoryDelete({ category }) {
           <div>
             <h3 className="text-[#333333] text-lg">
               Do you want to delete category{" "}
-              <span className="font-bold">"{category?.name}"</span>
+              <span className="font-bold">
+                {'"'}
+                {category?.name}
+                {'"'}
+              </span>
             </h3>
             <p className="text-[#555555] text-sm">
               If you want to delete{" "}
-              <span className="font-bold">"{category?.name}"</span> category
-              then click on delete button if not then click on cancel button.
+              <span className="font-bold">
+                {'"'}
+                {category?.name}
+                {'"'}
+              </span>{" "}
+              category then click on delete button if not then click on cancel
+              button.
             </p>
           </div>
         </ConfirmDeleteModal>

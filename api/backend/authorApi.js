@@ -11,7 +11,7 @@ export async function addAuthorAPi(payload) {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 
@@ -29,7 +29,7 @@ export async function updateAuthorImgApi(id, img) {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 
@@ -47,7 +47,7 @@ export async function updateAuthorDataApi(id, payload) {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 

@@ -42,16 +42,25 @@ function AdminAuthorUpdatePropertyForm({ cancel, author, setAuthor }) {
       };
 
       const response = await updateAuthorDataApi(author?._id, payload);
-      const json = await response.json();
-      const status = response.status;
 
-      if (status !== 200) {
-        toast.error(json?.msg || "Something went wrong.");
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        await revlidatePathApi("/xyz/admin/authors");
-        setAuthor(json?.updatedAuthor);
-        toast.success("Successfully update author.");
-        cancel();
+        const json = await response.json();
+        const status = response.status;
+
+        if (status !== 200) {
+          toast.error(json?.msg || "Something went wrong.");
+        } else {
+          try {
+            await revlidatePathApi("/xyz/admin/authors");
+          } catch (err) {
+            console.log("failed to refresh");
+          }
+          setAuthor(json?.updatedAuthor);
+          toast.success("Successfully update author.");
+          cancel();
+        }
       }
     } catch (err) {
       toast.error("Seomthing went wrong.");

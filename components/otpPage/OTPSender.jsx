@@ -26,42 +26,50 @@ function OTPSender() {
     try {
       setLoading(true);
       const response = await resendOTPApi(email);
-      const responseJSON = await response.json();
-      const status = response.status;
 
-      toast.dismiss();
-      if (status === 404) {
-        toast.error("User is not exist.");
+      if (response === null) {
+        console.log("null error..");
+        toast.dismiss();
+        toast.error("Something went wrong...");
+      } else {
+        const responseJSON = await response.json();
+        const status = response.status;
+
+        toast.dismiss();
+        if (status === 404) {
+          toast.error("User is not exist.");
+        }
+
+        // for success
+        else if (status === 200) {
+          toast.success(responseJSON?.msg);
+          const payload = {
+            email: responseJSON?.email,
+            lastTimeOtpSend: responseJSON?.lastTimeOtpSend,
+          };
+
+          dispatch(setOTPEmailAction(payload));
+        }
+
+        // for too many request
+        else if (status === 429) {
+          const lastTimeOtpSend = responseJSON?.lastTimeOtpSend;
+          const lastTimeDate = new Date(lastTimeOtpSend);
+          const diffInMili = Date.now() - lastTimeDate;
+          const otpResendTimGap = minToMili(responseJSON.otpResendTimGap);
+          const leftMili = otpResendTimGap - diffInMili;
+          const [min, sec] = miliToMinSec(leftMili);
+
+          const msgStr = `Too many request. Please try again after ${min}min ${sec}sec`;
+          toast.error(msgStr, { duration: 4000 });
+        }
+        // if user is already verified
+        else if (status === 409) {
+          toast.error("User is already verified. Just sign in.");
+          router.push("/signin");
+        }
       }
 
-      // for success
-      else if (status === 200) {
-        toast.success(responseJSON?.msg);
-        const payload = {
-          email: responseJSON?.email,
-          lastTimeOtpSend: responseJSON?.lastTimeOtpSend,
-        };
-
-        dispatch(setOTPEmailAction(payload));
-      }
-
-      // for too many request
-      else if (status === 429) {
-        const lastTimeOtpSend = responseJSON?.lastTimeOtpSend;
-        const lastTimeDate = new Date(lastTimeOtpSend);
-        const diffInMili = Date.now() - lastTimeDate;
-        const otpResendTimGap = minToMili(responseJSON.otpResendTimGap);
-        const leftMili = otpResendTimGap - diffInMili;
-        const [min, sec] = miliToMinSec(leftMili);
-
-        const msgStr = `Too many request. Please try again after ${min}min ${sec}sec`;
-        toast.error(msgStr, { duration: 4000 });
-      }
-      // if user is already verified
-      else if (status === 409) {
-        toast.error("User is already verified. Just sign in.");
-        router.push("/signin");
-      }
       setLoading(false);
     } catch (err) {
       console.log(err);

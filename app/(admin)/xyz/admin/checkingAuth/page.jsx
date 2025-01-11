@@ -16,14 +16,19 @@ export default function CheckingAuthPage() {
       toast.dismiss();
       try {
         const response = await adminCheckingAuth();
-        const json = await response.json();
-        const status = response.status;
 
-        if (status === 301) {
-          router.push(json?.redirectLink);
+        if (response === null) {
+          toast.error("Something went wrong...");
         } else {
-          setIsError(true);
-          toast.error("Something went wrong.");
+          const json = await response.json();
+          const status = response.status;
+
+          if (status === 301) {
+            router.push(json?.redirectLink);
+          } else {
+            setIsError(true);
+            toast.error("Something went wrong.");
+          }
         }
       } catch (err) {
         console.log(err);

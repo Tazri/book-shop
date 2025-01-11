@@ -2,6 +2,7 @@ import { adminLogoutApi } from "@/api/backend/backendAuth";
 import ButtonSpinner from "@/components/shared/spinner/ButtonSpinner";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegUserCircle } from "react-icons/fa";
 
 function HeaderProfileAvaterMenu() {
@@ -21,13 +22,18 @@ function HeaderProfileAvaterMenu() {
 
     try {
       const response = await adminLogoutApi();
-      const json = await response.json();
-      const status = response.status;
 
-      if (status === 301) {
-        router.push(json?.redirectLink);
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        toast.error("Something went wrong.");
+        const json = await response.json();
+        const status = response.status;
+
+        if (status === 301) {
+          router.push(json?.redirectLink);
+        } else {
+          toast.error("Something went wrong.");
+        }
       }
     } catch (err) {
       console.log(err.message);

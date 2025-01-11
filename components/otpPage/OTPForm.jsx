@@ -58,41 +58,48 @@ function OTPForm() {
     setResendLoading(true);
     try {
       const response = await resendOTPApi(otpEmail);
-      const responseJson = await response.json();
-      const status = response.status;
 
-      toast.dismiss();
-      if (status === 200) {
-        setIsOTPDisabled(false);
-        const payload = {
-          email: responseJson.email,
-          lastTimeOtpSend: responseJson.lastTimeOtpSend,
-        };
+      if (response === null) {
+        toast.dismiss();
+        toast.error("Something went wrong...");
+        console.log("null error here...");
+      } else {
+        const responseJson = await response.json();
+        const status = response.status;
 
-        setResendTimeString("1min");
-        toast.success("OTP is sended.");
-        setOtpResendTimGap(responseJson?.otpResendTimGap);
-        dispatch(setOTPEmailAction(payload));
-      }
-      // if too many request
-      else if (status === 429) {
-        const payload = {
-          email: responseJson.email,
-          lastTimeOtpSend: responseJson.lastTimeOtpSend,
-        };
+        toast.dismiss();
+        if (status === 200) {
+          setIsOTPDisabled(false);
+          const payload = {
+            email: responseJson.email,
+            lastTimeOtpSend: responseJson.lastTimeOtpSend,
+          };
 
-        toast.error("Too many OTP request.");
-        dispatch(setOTPEmailAction(payload));
-      }
+          setResendTimeString("1min");
+          toast.success("OTP is sended.");
+          setOtpResendTimGap(responseJson?.otpResendTimGap);
+          dispatch(setOTPEmailAction(payload));
+        }
+        // if too many request
+        else if (status === 429) {
+          const payload = {
+            email: responseJson.email,
+            lastTimeOtpSend: responseJson.lastTimeOtpSend,
+          };
 
-      // if user is already verified
-      else if (status === 409) {
-        toast.error(responseJson.msg);
-      }
+          toast.error("Too many OTP request.");
+          dispatch(setOTPEmailAction(payload));
+        }
 
-      // nothing else.
-      else {
-        toast.error("Server side error.");
+        // if user is already verified
+        else if (status === 409) {
+          toast.error(responseJson.msg);
+        }
+
+        // nothing else.
+        else {
+          toast.error("Server side error.");
+        }
       }
 
       setResendLoading(false);
@@ -160,34 +167,41 @@ function OTPForm() {
 
       // start network request
       const response = await verifyEmailApi(payload);
-      const responseJSON = await response.json();
-      const status = response.status;
 
-      // change state based on response
-      toast.dismiss();
-      if (status === 400) {
-        setBoxError(Array(4).fill(true));
-        toast.error(responseJSON?.msg);
-      }
-      // if otp is disabled
-      else if (status === 429) {
-        setIsOTPDisabled(true);
-        toast.error(responseJSON?.msg);
-      }
+      if (response === null) {
+        toast.dismiss();
+        toast.error("Something went wrong...");
+        console.log("null error...");
+      } else {
+        const responseJSON = await response.json();
+        const status = response.status;
 
-      // if success to verify
-      else if (status === 200) {
-        toast.success(responseJSON?.msg);
-        setOTPMatched(true);
-        setTimeout(() => {
-          router.push("/signin");
-          // dispatch(removeOTPEmailAction());
-        }, 1500);
-      }
+        // change state based on response
+        toast.dismiss();
+        if (status === 400) {
+          setBoxError(Array(4).fill(true));
+          toast.error(responseJSON?.msg);
+        }
+        // if otp is disabled
+        else if (status === 429) {
+          setIsOTPDisabled(true);
+          toast.error(responseJSON?.msg);
+        }
 
-      // unknown case
-      else {
-        toast.error("Something went wrong.");
+        // if success to verify
+        else if (status === 200) {
+          toast.success(responseJSON?.msg);
+          setOTPMatched(true);
+          setTimeout(() => {
+            router.push("/signin");
+            // dispatch(removeOTPEmailAction());
+          }, 1500);
+        }
+
+        // unknown case
+        else {
+          toast.error("Something went wrong.");
+        }
       }
 
       if (!OTPMatched) {

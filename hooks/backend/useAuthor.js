@@ -15,17 +15,23 @@ export default function useAuthor(id) {
     toast.dismiss();
     try {
       const response = await getSingleAuthorApi(id);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status === 400 || status === 404) {
-        setError(json?.msg);
-        toast.error("Failed to load.");
-      } else if (status !== 200) {
-        setError("Somethign went wrong.");
-        toast.error("Failed to load.");
+      if (response === null) {
+        setError("Something went wrong...");
+        toast.error("Failed to load...");
       } else {
-        setAuthor(json?.author);
+        const status = response.status;
+        const json = await response.json();
+
+        if (status === 400 || status === 404) {
+          setError(json?.msg);
+          toast.error("Failed to load.");
+        } else if (status !== 200) {
+          setError("Somethign went wrong.");
+          toast.error("Failed to load.");
+        } else {
+          setAuthor(json?.author);
+        }
       }
     } catch (err) {
       console.log(err.message);

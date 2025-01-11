@@ -16,17 +16,23 @@ export default function usePublisher(id) {
     toast.dismiss();
     try {
       const response = await getSinglePublisherApi(id);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status === 400 || status === 404) {
-        setError(json?.msg);
-        toast.error("Failed to load.");
-      } else if (status !== 200) {
-        setError("Something went wrong.");
-        toast.error("Failed to load.");
+      if (response === null) {
+        setError("Something went wrong...");
+        toast.error("Failed to load");
       } else {
-        setPublisher(json?.publisher);
+        const status = response.status;
+        const json = await response.json();
+
+        if (status === 400 || status === 404) {
+          setError(json?.msg);
+          toast.error("Failed to load.");
+        } else if (status !== 200) {
+          setError("Something went wrong.");
+          toast.error("Failed to load.");
+        } else {
+          setPublisher(json?.publisher);
+        }
       }
     } catch (err) {
       console.log(err.message);

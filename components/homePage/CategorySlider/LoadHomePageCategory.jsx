@@ -4,6 +4,14 @@ import CategorySwiper from "./CategorySwiper";
 
 async function LoadHomePageCategory() {
   const response = await getAllCategory();
+
+  if (response === null) {
+    return (
+      <h1 className="text-xl text-center text-gray-700 py-2">
+        Category failed loaded.
+      </h1>
+    );
+  }
   const status = response.status;
   const jsonData = await response.json();
 

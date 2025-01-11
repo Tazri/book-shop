@@ -29,16 +29,26 @@ function AdminAuthorDateForm({ cancel, author, setAuthor }) {
     toast.dismiss();
     try {
       const response = await updateAuthorDataApi(author?._id, formData);
-      const json = await response.json();
-      const status = response.status;
 
-      if (status !== 200) {
-        toast.error(json?.msg || "Something went wrong.");
+      if (response === null) {
+        toast.error("Something went wrong..");
       } else {
-        await revlidatePathApi("/xyz/admin/authors");
-        setAuthor(json?.updatedAuthor);
-        toast.success("Update successfully.");
-        cancel();
+        const json = await response.json();
+        const status = response.status;
+
+        if (status !== 200) {
+          toast.error(json?.msg || "Something went wrong.");
+        } else {
+          try {
+            await revlidatePathApi("/xyz/admin/authors");
+          } catch (err) {
+            console.log("failed to refresh");
+          }
+
+          setAuthor(json?.updatedAuthor);
+          toast.success("Update successfully.");
+          cancel();
+        }
       }
     } catch (err) {
       toast.error("Someting went wrong.");

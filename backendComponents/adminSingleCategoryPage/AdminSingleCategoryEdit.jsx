@@ -36,20 +36,31 @@ function AdminSingleCategoryEdit({ cancel = () => {}, category, setCategory }) {
 
     try {
       const response = await updateCategoryApi(category?._id, payload);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status === 400) {
-        toast.error(json?.msg || "Something went wrong.");
-      } else if (200) {
-        toast.success("Category updated successfully.");
-        setCategory(json?.updateCategory);
-        await revlidatePathApi("/xyz/admin/allCategory");
-        cancel();
+      if (response == null) {
+        toast.error("Something went wrong.");
       } else {
-        toast.error(
-          "Something went wrong. Please check your internet connection"
-        );
+        const status = response.status;
+        const json = await response.json();
+
+        if (status === 400) {
+          toast.error(json?.msg || "Something went wrong.");
+        } else if (200) {
+          toast.success("Category updated successfully.");
+          setCategory(json?.updateCategory);
+
+          try {
+            await revlidatePathApi("/xyz/admin/allCategory");
+          } catch (err) {
+            console.log("Failed to Refresh...");
+          }
+
+          cancel();
+        } else {
+          toast.error(
+            "Something went wrong. Please check your internet connection"
+          );
+        }
       }
     } catch (err) {
       console.log(err?.message);

@@ -3,6 +3,15 @@ import AuthorSwiper from "./AuthorSwiper";
 
 async function HomeLoadAuthor() {
   const response = await getAuthorsPage(1, 7);
+
+  if (response === null) {
+    return (
+      <div className="text-red-500 text-center text-sm sm:text-base md:text-lg lg:text-xl uppercase">
+        Author load to failed.
+      </div>
+    );
+  }
+
   const json = await response.json();
   const status = 200;
 

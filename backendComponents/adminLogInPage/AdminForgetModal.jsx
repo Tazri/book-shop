@@ -55,38 +55,42 @@ function AdminForgetModal({ close }) {
       const userEmail = data.email;
 
       const response = await resetPasswordLinkApi(userEmail);
-      const json = await response.json();
-      const status = response.status;
+      if (response === null) {
+        toast.error("Something went wrong...");
+      } else {
+        const json = await response.json();
+        const status = response.status;
 
-      toast.dismiss();
-      if (status === 404) {
-        toast.error("Email is not valid.");
-      }
+        toast.dismiss();
+        if (status === 404) {
+          toast.error("Email is not valid.");
+        }
 
-      // if too many request
-      else if (status === 429) {
-        toast.error("Too many request. Please try later.");
-        dispatch(
-          setLastTimeResetLinkSendAction({
-            RESETLINK_GAP_TIME: json.RESETLINK_GAP_TIME,
-            lastTimeResetLinkSend: json.lastTimeResetLinkSend,
-          })
-        );
-      }
+        // if too many request
+        else if (status === 429) {
+          toast.error("Too many request. Please try later.");
+          dispatch(
+            setLastTimeResetLinkSendAction({
+              RESETLINK_GAP_TIME: json.RESETLINK_GAP_TIME,
+              lastTimeResetLinkSend: json.lastTimeResetLinkSend,
+            })
+          );
+        }
 
-      // if success
-      else if (status === 200) {
-        dispatch(
-          setLastTimeResetLinkSendAction({
-            RESETLINK_GAP_TIME: json.RESETLINK_GAP_TIME,
-            lastTimeResetLinkSend: json.lastTimeResetLinkSend,
-          })
-        );
-        toast.success("Reset link is sended.");
-      }
-      // for unknown problem
-      else {
-        toast.error("Server side problem.");
+        // if success
+        else if (status === 200) {
+          dispatch(
+            setLastTimeResetLinkSendAction({
+              RESETLINK_GAP_TIME: json.RESETLINK_GAP_TIME,
+              lastTimeResetLinkSend: json.lastTimeResetLinkSend,
+            })
+          );
+          toast.success("Reset link is sended.");
+        }
+        // for unknown problem
+        else {
+          toast.error("Server side problem.");
+        }
       }
       setLoading(false);
     } catch (err) {

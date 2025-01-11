@@ -10,6 +10,15 @@ async function LoadPublishersTable({ searchParams }) {
   const page = paramsPage > 0 ? paramsPage : 1;
   const searchText = searchParams?.search || "";
   const response = await getPublishersPageAPI(page, perPage, searchText);
+
+  if (response === null) {
+    return (
+      <h2 className="text-center text-2xl text-red-500 py-2">
+        Failed to Load Publishers
+      </h2>
+    );
+  }
+
   const json = await response.json();
   const status = response.status;
 

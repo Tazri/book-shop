@@ -43,27 +43,32 @@ function AdminLoginPage() {
     try {
       // api call
       const response = await adminLoginApi(data);
-      const json = await response.json();
-      const status = response.status;
 
-      // if all ok
-      if (status === 200) {
-        toast.success("Successfully login.");
-        router.push("/xyz/admin/");
-      }
+      if (response === null) {
+        toast.error("Something went wrong...");
+      } else {
+        const json = await response.json();
+        const status = response.status;
 
-      // if user or password incorrect
-      else if (status === 401) {
-        toast.error(json.msg);
-      }
+        // if all ok
+        if (status === 200) {
+          toast.success("Successfully login.");
+          router.push("/xyz/admin/");
+        }
 
-      // if too many request
-      else if (status === 429) {
-        toast.error(json.msg);
-      }
-      // others
-      else {
-        toast.error("Server side error.");
+        // if user or password incorrect
+        else if (status === 401) {
+          toast.error(json.msg);
+        }
+
+        // if too many request
+        else if (status === 429) {
+          toast.error(json.msg);
+        }
+        // others
+        else {
+          toast.error("Server side error.");
+        }
       }
     } catch (err) {
       console.log(err);

@@ -21,16 +21,25 @@ function AdminAuthorUpdateImgForm({ cancel, setAuthor, author }) {
     setLoading(true);
     try {
       const response = await updateAuthorImgApi(author?._id, previewImg);
-      const json = await response.json();
-      const status = response.status;
 
-      if (status === 200) {
-        await revlidatePathApi("/xyz/admin/authors");
-        toast.success("Img update successfully.");
-        setAuthor(json?.updatedAuthor);
-        cancel();
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        toast.error(json?.msg || "Failed to update img.");
+        const json = await response.json();
+        const status = response.status;
+
+        if (status === 200) {
+          try {
+            await revlidatePathApi("/xyz/admin/authors");
+          } catch (err) {
+            console.log("failed to refresh");
+          }
+          toast.success("Img update successfully.");
+          setAuthor(json?.updatedAuthor);
+          cancel();
+        } else {
+          toast.error(json?.msg || "Failed to update img.");
+        }
       }
     } catch (err) {
       console.log(err.message);

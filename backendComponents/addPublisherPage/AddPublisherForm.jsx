@@ -40,15 +40,26 @@ function AddPublisherForm() {
       payload.totalBooks = 0;
 
       const response = await addPublishersAPi(payload);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status === 200) {
-        resetForm();
-        await revlidatePathApi("/xyz/admin/allPublishers");
-        toast.success("Publisher added successfully.");
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        toast.error(json?.msg || "Server side error.");
+        const status = response.status;
+        const json = await response.json();
+
+        if (status === 200) {
+          resetForm();
+
+          try {
+            await revlidatePathApi("/xyz/admin/allPublishers");
+          } catch (err) {
+            console.log("failed to refresh..");
+          }
+
+          toast.success("Publisher added successfully.");
+        } else {
+          toast.error(json?.msg || "Server side error.");
+        }
       }
     } catch (err) {
       console.log(err.message);

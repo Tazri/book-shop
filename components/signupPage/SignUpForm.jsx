@@ -40,23 +40,29 @@ function SignUpForm() {
       setLoading(true);
       const response = await signInApi(bodyData);
 
-      const responseJson = await response.json();
-      setLoading(false);
-
-      if (response.status === 200) {
+      if (response === null) {
         toast.dismiss();
-        toast.success(responseJson?.msg, { duration: 4000 });
-
-        const payload = {
-          lastTimeOtpSend: responseJson?.lastTimeOtpSend,
-          email: responseJson.email,
-        };
-
-        dispatch(setOTPEmailAction(payload));
-        router.push("/otp");
+        toast.error("Something went wrong...");
+        console.log("Null error...");
       } else {
-        toast.dismiss();
-        toast.error(responseJson?.msg);
+        const responseJson = await response.json();
+        setLoading(false);
+
+        if (response.status === 200) {
+          toast.dismiss();
+          toast.success(responseJson?.msg, { duration: 4000 });
+
+          const payload = {
+            lastTimeOtpSend: responseJson?.lastTimeOtpSend,
+            email: responseJson.email,
+          };
+
+          dispatch(setOTPEmailAction(payload));
+          router.push("/otp");
+        } else {
+          toast.dismiss();
+          toast.error(responseJson?.msg);
+        }
       }
     } catch (err) {
       toast.dismiss();

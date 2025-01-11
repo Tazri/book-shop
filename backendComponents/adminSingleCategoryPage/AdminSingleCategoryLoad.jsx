@@ -21,18 +21,23 @@ function AdminSingleCategoryLoad({ id }) {
     setCategory(null);
     try {
       const response = await getSingleCategoryApi(id);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status === 400) {
-        setError(json.msg);
-      } else if (status === 404) {
-        setError(json.msg);
-      } else if (status === 200) {
-        setCategory(json.category);
-        setError(null);
+      if (response === null) {
+        setError("Something went wrong. Check your internet connection...");
       } else {
-        setError("Something went wrong. Check your internet connection.");
+        const status = response.status;
+        const json = await response.json();
+
+        if (status === 400) {
+          setError(json.msg);
+        } else if (status === 404) {
+          setError(json.msg);
+        } else if (status === 200) {
+          setCategory(json.category);
+          setError(null);
+        } else {
+          setError("Something went wrong. Check your internet connection.");
+        }
       }
     } catch (err) {
     } finally {

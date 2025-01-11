@@ -21,13 +21,18 @@ function AdminSideBar({ isOpen = false, sidebarClose = () => {} }) {
     setIsLogoutLoading(true);
     try {
       const response = await adminLogoutApi();
-      const json = await response.json();
-      const status = response.status;
 
-      if (status === 301) {
-        router.push(json?.redirectLink);
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        toast.error("Something went wrong.");
+        const json = await response.json();
+        const status = response.status;
+
+        if (status === 301) {
+          router.push(json?.redirectLink);
+        } else {
+          toast.error("Something went wrong.");
+        }
       }
     } catch (err) {
       console.log(err.message);

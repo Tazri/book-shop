@@ -30,22 +30,27 @@ function ResetPasswordForm({ token }) {
     setLoading(true);
     try {
       const response = await adminResetPasswordAPI(payload);
-      const json = await response.json();
-      const status = response.status;
 
-      toast.dismiss();
-
-      // start
-      if (status === 200) {
-        toast.success(json?.msg);
-        router.push("/xyz/admin/login");
-      }
-      // if token is not valid or password is not valid
-      else if (status === 400) {
-        toast.error("Link is expired. Please try generate another link.");
-        router.push("/xyz/admin/login");
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        toast.error("Something went wrong.");
+        const json = await response.json();
+        const status = response.status;
+
+        toast.dismiss();
+
+        // start
+        if (status === 200) {
+          toast.success(json?.msg);
+          router.push("/xyz/admin/login");
+        }
+        // if token is not valid or password is not valid
+        else if (status === 400) {
+          toast.error("Link is expired. Please try generate another link.");
+          router.push("/xyz/admin/login");
+        } else {
+          toast.error("Something went wrong.");
+        }
       }
       setLoading(false);
     } catch (err) {

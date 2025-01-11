@@ -27,16 +27,27 @@ function AuthorEditNameDescription({ cancel, setAuthor, author }) {
     setLoading(true);
     try {
       const response = await updateAuthorDataApi(author?._id, formData);
-      const json = await response.json();
-      const status = response.status;
 
-      if (status === 200) {
-        toast.success("Successfully update.");
-        await revlidatePathApi("/xyz/admin/authors");
-        setAuthor(json?.updatedAuthor);
-        cancel();
+      if (response === null) {
+        toast.error("Something went wrong...");
       } else {
-        toast.error(json?.msg || "Something went wrong.");
+        const json = await response.json();
+        const status = response.status;
+
+        if (status === 200) {
+          toast.success("Successfully update.");
+
+          try {
+            await revlidatePathApi("/xyz/admin/authors");
+          } catch (err) {
+            console.log("failed to refresh");
+          }
+
+          setAuthor(json?.updatedAuthor);
+          cancel();
+        } else {
+          toast.error(json?.msg || "Something went wrong.");
+        }
       }
     } catch (err) {
       console.log(err.message);

@@ -8,6 +8,15 @@ async function LoadCategoryTable({ searchParams }) {
   const perPage = paramsPerPage > 0 ? paramsPerPage : 5;
   const page = paramsPage > 0 ? paramsPage : 1;
   const response = await getCategoryPage(page, perPage);
+
+  if (response === null) {
+    return (
+      <h2 className="text-center text-2xl text-red-500 py-2">
+        Failed to Load Categories
+      </h2>
+    );
+  }
+
   const status = response.status;
   const json = await response.json();
 

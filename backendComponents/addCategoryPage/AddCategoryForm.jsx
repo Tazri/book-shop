@@ -50,23 +50,34 @@ function AddCategoryForm() {
       // resetForm();
       // send the payload and get the response
       const response = await addCategoryApi(payload);
-      const status = response.status;
-      const json = await response.json();
 
-      if (status === 200) {
-        resetForm();
-        await revlidatePathApi("/xyz/admin/allCategory");
-        toast.success("Category added successfully.");
-      } else if (status === 409) {
-        toast.error("The category name already exist. Try another name.");
-        setError("name", {
-          type: "manual",
-          message: "The category name is already exist.",
-        });
-      } else if (status === 400) {
-        toast.error("Please provide valid data.");
+      if (response === null) {
+        toast.error("Something went wrong.");
       } else {
-        toast.error("Server side error.");
+        const status = response.status;
+        const json = await response.json();
+
+        if (status === 200) {
+          resetForm();
+
+          try {
+            await revlidatePathApi("/xyz/admin/allCategory");
+          } catch (err) {
+            console.log("Failed to refress");
+          }
+
+          toast.success("Category added successfully.");
+        } else if (status === 409) {
+          toast.error("The category name already exist. Try another name.");
+          setError("name", {
+            type: "manual",
+            message: "The category name is already exist.",
+          });
+        } else if (status === 400) {
+          toast.error("Please provide valid data.");
+        } else {
+          toast.error("Server side error.");
+        }
       }
     } catch (err) {
       console.log(err.message);

@@ -36,16 +36,28 @@ function AdminSingleCategoryUpdateImg({ cancel, category, setCategory }) {
 
         // update the file
         const response = await updateCategoryApi(category?._id, payload);
-        const status = response.status;
-        const json = await response.json();
 
-        if (status !== 200) {
-          toast.error("Failed to updated the category file. Please try again.");
+        if (response === null) {
+          toast.error("Something went wrong..");
         } else {
-          setCategory(json?.updateCategory);
-          await revlidatePathApi("/xyz/admin/allCategory");
-          toast.success("File Update Successfully.");
-          cancel();
+          const status = response.status;
+          const json = await response.json();
+
+          if (status !== 200) {
+            toast.error(
+              "Failed to updated the category file. Please try again."
+            );
+          } else {
+            setCategory(json?.updateCategory);
+
+            try {
+              await revlidatePathApi("/xyz/admin/allCategory");
+            } catch (err) {
+              console.log("failed to refresh...");
+            }
+            toast.success("File Update Successfully.");
+            cancel();
+          }
         }
       }
     } catch (err) {

@@ -50,15 +50,23 @@ function AddAuthorForm() {
 
       // send request
       const res = await addAuthorAPi(payload);
-      const status = res.status;
-      const json = await res.json();
-
-      if (status !== 200) {
-        toast.error(json?.msg || "Something went wrong.");
+      if (res === null) {
+        toast.error("Something went wrong.");
       } else {
-        await revlidatePathApi("/xyz/admin/authors");
-        toast.success("Author create successfully.");
-        resetForm();
+        const status = res.status;
+        const json = await res.json();
+
+        if (status !== 200) {
+          toast.error(json?.msg || "Something went wrong.");
+        } else {
+          try {
+            await revlidatePathApi("/xyz/admin/authors");
+          } catch (err) {
+            console.log("failed to refresh..");
+          }
+          toast.success("Author create successfully.");
+          resetForm();
+        }
       }
     } catch (err) {
       toast.error("Something went wrong.");

@@ -11,7 +11,7 @@ export async function resetPasswordLinkApi(email) {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 
@@ -29,7 +29,7 @@ export async function adminResetPasswordAPI(payload) {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 
@@ -47,7 +47,7 @@ export async function adminLoginApi(payload) {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 
@@ -64,7 +64,7 @@ export async function adminCheckingAuth() {
 
     return response;
   } catch (err) {
-    return null;
+    return err;
   }
 }
 

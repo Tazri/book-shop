@@ -8,6 +8,15 @@ async function LoadAuthorPage({ searchParams }) {
   const searchText = searchParams?.search || "";
 
   const response = await getAuthorsPage(page, perPage, searchText);
+
+  if (response === null) {
+    return (
+      <div className="text-center text-red-600 uppercase text-base sm:text-lg md:text-xl lg:text-2xl my-3 duration-150 mt-9">
+        Failed to load
+      </div>
+    );
+  }
+
   const json = await response.json();
   const status = response.status;
 
